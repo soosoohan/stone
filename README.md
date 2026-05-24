@@ -9,10 +9,10 @@ Choose a column, drop your card, and merge your way to bigger numbers — no tim
 
 ### 게임 방법 / How to Play  
 
-- 격자 안에 숨겨진 숫자를 품은 바위가 있어 카드가 통과할 수 없습니다. 
+- 격자 안에 숨겨진 숫자를 품은 바위가 있어 카드가 통과할 수 없습니다.   
   Rocks block your cards and hide secret numbers inside.
 
-- 대기 카드 3장이 순서대로 준비됩니다. 열을 선택해 카드를 떨어뜨리면 바위나 다른 카드 위에 얹힙니다.
+- 대기 카드 3장이 순서대로 준비됩니다. 열을 선택해 카드를 떨어뜨리면 바위나 다른 카드 위에 얹힙니다.    
   Choose a column to drop the first card — it lands on top of a rock or another card.
 
 - 상하좌우로 같은 숫자가 인접하면 합체됩니다. 나중에 온 카드가 먼저 있던 카드에 흡수되어 2배가 됩니다. 연쇄 합체도 가능합니다.   
