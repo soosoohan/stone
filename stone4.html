@@ -586,6 +586,9 @@ function dropCard() {
   }
 
   if (targetRow === -1) {
+    // 이 열이 꽉 찼을 때도 합체 먼저 확인 후 게임오버
+    applyGravityAll();
+    renderBoard();
     checkGameOver();
     return;
   }
@@ -597,10 +600,10 @@ function dropCard() {
 
   const mergeSet  = new Set();
   const revealSet = new Set();
-  runMergeLoop(targetRow, col, mergeSet, revealSet);
+  runMergeLoop(targetRow, col, mergeSet, revealSet); // 합체 먼저
 
   renderBoard(mergeSet, revealSet);
-  checkGameOver();
+  checkGameOver(); // 합체 후 게임오버 체크
 }
 
 function runMergeLoop(newR, newC, mergeSet, revealSet) {
