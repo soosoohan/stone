@@ -15,30 +15,23 @@
 
   const originalGtag = gtag;
   function gtag() {
-    if (isLocal) {
-      return;
-    }
+    if (isLocal) return;
     originalGtag.apply(this, arguments);
   }
 </script>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>넘스톤 (Numstone) - 숫자 합체 퍼즐 게임 | 수수랜드</title>
 <meta name="description" content="바위 장애물을 피해 숫자 카드를 합체시키는 전략 퍼즐 게임. 같은 숫자끼리 만나면 흡수되어 커집니다. 광고 없는 무료 브라우저 게임.">
 <meta name="keywords" content="넘스톤, numstone, 숫자게임, 합체퍼즐, 2048, 두뇌게임, 수수랜드, number merge, puzzle game, brain game">
 <meta name="author" content="수수랜드">
-
-<!-- Open Graph -->
 <meta property="og:title" content="넘스톤 (Numstone) - 숫자 합체 퍼즐">
 <meta property="og:description" content="바위 장애물을 피해 숫자를 합체시키는 전략 퍼즐. 수수랜드의 새로운 두뇌 게임.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://soosooland.com/stone/">
 <meta property="og:image" content="https://soosooland.com/">
 <meta property="og:site_name" content="수수랜드 Soosooland">
-
-<!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="넘스톤 (Numstone)">
 <meta name="twitter:description" content="바위 장애물을 피해 숫자를 합체시키는 전략 퍼즐 게임">
@@ -48,33 +41,31 @@
 
   body {
     font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
-    background: #145454;
+    background: #1a1a2e;
     color: #eee;
     min-height: 100vh;
     padding: 30px 20px 60px;
   }
+
   .back-button {
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        padding: 10px 20px;
-        font-size: 1em;
-        background-color: #FFD6BA;
-        color: #7A2E2E;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        z-index: 100;
-    }
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: #FFD6BA;
+    color: #7A2E2E;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 100;
+  }
+  .back-button:hover {
+    background-color: #FF9494;
+    color: white;
+  }
 
-    .back-button:hover {
-        background-color: #FF9494;
-        color: white;
-    }
-
-
-  /* 언어 토글 */
   #lang-toggle {
     position: fixed;
     top: 16px;
@@ -95,26 +86,11 @@
   body.en .lang-ko { display: none; }
   body.ko .lang-en { display: none; }
 
-  /* 헤더 */
   header {
     text-align: center;
     margin-bottom: 40px;
     padding-top: 20px;
   }
-
-  .site-name {
-    font-size: 0.9rem;
-    color: #888;
-    margin-bottom: 8px;
-    letter-spacing: 1px;
-  }
-
-  .site-name a {
-    color: #888;
-    text-decoration: none;
-  }
-
-  .site-name a:hover { color: #f0c040; }
 
   h1 {
     font-size: 2.8rem;
@@ -123,214 +99,146 @@
     margin-bottom: 8px;
   }
 
-  .subtitle {
-    font-size: 1rem;
-    color: #aaa;
-    margin-bottom: 20px;
-  }
-
-  /* 게임 선택 카드 */
-  #game-cards {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin: 40px 0;
-  }
-
-  .game-card {
-    background: #16213e;
-    border: 2px solid #2a2a4a;
-    border-radius: 16px;
-    padding: 28px 32px;
-    width: 220px;
-    text-align: center;
-    transition: all 0.2s;
-    text-decoration: none;
-    color: #eee;
-    position: relative;
-  }
-
-  .game-card:hover {
-    border-color: #f0c040;
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(240,192,64,0.2);
-  }
-
-  .game-card.coming-soon {
-    opacity: 0.5;
-    cursor: default;
-    pointer-events: none;
-  }
-
-  .card-icon {
-    font-size: 3rem;
-    margin-bottom: 12px;
-  }
-
-  .card-title {
-    font-size: 1.3rem;
-    font-weight: bold;
-    color: #f0c040;
-    margin-bottom: 6px;
-  }
-
-  .card-desc {
-    font-size: 0.85rem;
-    color: #888;
-    line-height: 1.5;
-  }
-
-  .badge {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    background: #e74c3c;
-    color: #fff;
-    font-size: 0.7rem;
-    padding: 3px 8px;
-    border-radius: 10px;
-    font-weight: bold;
-  }
-
-  .badge.soon {
-    background: #555;
-  }
-
-  /* 설명 섹션 */
-  .section {
+  /* ── 공통 카드 섹션 ── */
+  .info-card {
     max-width: 680px;
-    margin: 0 auto 40px;
+    margin: 0 auto 28px;
+    background: #fce9dc;
+    border-radius: 15px;
+    padding: 24px 28px;
+    color: #7A2E2E;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
   }
 
-  .section h2 {
-    font-size: 1.3rem;
-    color: #f0c040;
-    margin-bottom: 16px;
+  .info-card h2 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #7A2E2E;
+    margin-bottom: 14px;
     padding-bottom: 8px;
-    border-bottom: 1px solid #2a2a4a;
+    border-bottom: 2px solid #f0c040;
   }
 
-  .section p {
-    color: #bbb;
+  .info-card p {
+    font-size: 0.97rem;
     line-height: 1.8;
-    margin-bottom: 12px;
-    font-size: 0.95rem;
+    color: #7A2E2E;
+    margin-bottom: 10px;
   }
+  .info-card p:last-child { margin-bottom: 0; }
 
-  /* 규칙 카드 */
-  .rule-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 14px;
-    margin-top: 16px;
-  }
-
-  .rule-card {
-    background: #16213e;
-    border: 1px solid #2a2a4a;
-    border-radius: 12px;
-    padding: 18px;
-  }
-
-  .rule-card .rule-icon {
-    font-size: 1.6rem;
-    margin-bottom: 8px;
-  }
-
-  .rule-card h3 {
+  .info-card h3 {
     font-size: 1rem;
-    color: #f0c040;
-    margin-bottom: 6px;
+    font-weight: bold;
+    color: #a04040;
+    margin: 14px 0 4px;
   }
 
-  .rule-card p {
-    font-size: 0.85rem;
-    color: #999;
-    line-height: 1.6;
-    margin: 0;
-  }
+  .info-card h3:first-of-type { margin-top: 4px; }
 
-  /* 조작법 */
+  /* 조작법 테이블 */
   .control-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 12px;
-    font-size: 0.9rem;
+    margin-top: 8px;
+    font-size: 0.93rem;
   }
-
   .control-table td {
-    padding: 10px 14px;
-    border-bottom: 1px solid #2a2a4a;
-    color: #bbb;
+    padding: 10px 12px;
+    border-bottom: 1px solid #e8c8b0;
+    color: #7A2E2E;
+    vertical-align: top;
   }
-
+  .control-table tr:last-child td { border-bottom: none; }
   .control-table td:first-child {
-    color: #f0c040;
     font-weight: bold;
     white-space: nowrap;
-    width: 160px;
+    width: 120px;
+    color: #a04040;
   }
 
-  /* 푸터 */
+  /* 게임 선택 버튼 */
+  .selection-container {
+    max-width: 680px;
+    margin: 0 auto 28px;
+  }
+  .selection-row {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .selection-button {
+    flex: 1;
+    min-width: 200px;
+    max-width: 300px;
+    padding: 28px 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    border: none;
+    border-radius: 15px;
+    background: linear-gradient(145deg, #FFD6BA, #FFCAA6);
+    color: #7A2E2E;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    text-align: center;
+  }
+  .selection-button:hover:not(.disabled) {
+    background: linear-gradient(145deg, #FF9494, #FF7373);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(255,148,148,0.3);
+  }
+  .selection-button:active:not(.disabled) { transform: translateY(-1px); }
+  .selection-button.disabled {
+    background: linear-gradient(145deg, #D5D5D5, #BEBEBE);
+    color: #888;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+  .selection-button .emoji {
+    display: block;
+    font-size: 2em;
+    margin-bottom: 10px;
+  }
+  .selection-button .english-title {
+    font-size: 0.7em;
+    font-weight: normal;
+    opacity: 0.8;
+    margin-bottom: 6px;
+  }
+  .selection-button .card-desc {
+    font-size: 0.8em;
+    font-weight: normal;
+    line-height: 1.5;
+  }
+
   footer {
     text-align: center;
-    color: #555;
+    color: #d1cbcb;
     font-size: 0.8rem;
-    margin-top: 60px;
+    margin-top: 30px;
   }
-
-  footer a { color: #777; text-decoration: none; }
-  footer a:hover { color: #f0c040; }
 </style>
 </head>
-  
-<button class="back-button" onclick="location.href='https://soosooland.com/'">
-    Soosooland </button>
 
 <body class="ko">
 
 <button id="lang-toggle" onclick="toggleLang()">EN</button>
 
-<!-- 헤더 -->
 <header>
-  <div class="site-name">
-    <a href="https://soosooland.com">🎮 수수랜드 Soosooland</a>
-  </div>
-  <h1>🪨 넘스톤</h1>
-  <p class="subtitle">
-    <span class="lang-ko">숫자 합체 퍼즐 — 바위를 깨워라</span>
-    <span class="lang-en">Number Merge Puzzle — Awaken the Stones</span>
-  </p>
+  <button class="back-button" onclick="location.href='https://soosooland.com/'">Soosooland</button>
+<h1 class="lang-ko">넘스톤</h1>
+  <h1 class="lang-en">Numstone</h1>
+  
 </header>
 
-<!-- 게임 선택 -->
-<div id="game-cards">
-  <a href="numstone4.html" class="game-card">
-    <div class="badge lang-ko">플레이</div>
-    <div class="badge lang-en">Play</div>
-    <div class="card-icon">🪨</div>
-    <div class="card-title lang-ko">넘스톤 4×4</div>
-    <div class="card-title lang-en">Numstone 4×4</div>
-    <div class="card-desc lang-ko">기본 모드<br>바위 2개 · 4열 격자</div>
-    <div class="card-desc lang-en">Classic Mode<br>2 Rocks · 4×4 Grid</div>
-  </a>
-
-  <div class="game-card coming-soon">
-    <div class="badge soon lang-ko">준비중</div>
-    <div class="badge soon lang-en">Soon</div>
-    <div class="card-icon">🪨🪨</div>
-    <div class="card-title lang-ko">넘스톤 5×5</div>
-    <div class="card-title lang-en">Numstone 5×5</div>
-    <div class="card-desc lang-ko">확장 모드<br>바위 3개 · 5열 격자</div>
-    <div class="card-desc lang-en">Extended Mode<br>3 Rocks · 5×5 Grid</div>
-  </div>
-</div>
-
 <!-- 게임 소개 -->
-<div class="section">
-  <h2 class="lang-ko">넘스톤이란?</h2>
+<div class="info-card">
+  <h2 class="lang-ko">넘스톤은 무엇인가?</h2>
   <h2 class="lang-en">What is Numstone?</h2>
+
   <p class="lang-ko">
     넘스톤은 숫자 카드를 격자에 떨어뜨려 같은 숫자끼리 합체시키는 전략 퍼즐 게임입니다.
     2048의 합체 원리에 테트리스식 낙하를 더했지만, 시간 압박은 없습니다.
@@ -339,61 +247,68 @@
     Numstone is a strategic puzzle game where you drop number cards onto a grid and merge matching numbers together.
     It combines the merge mechanics of 2048 with Tetris-style dropping — but without the time pressure.
   </p>
+
   <p class="lang-ko">
-    핵심은 <strong style="color:#f0c040">바위</strong>입니다. 격자 안에 숨겨진 숫자를 품은 바위가 있어 카드가 통과할 수 없습니다.
+    핵심은 <strong>바위</strong>입니다. 격자 안에 숨겨진 숫자를 품은 바위가 있어 카드가 통과할 수 없습니다.
     올바른 숫자를 가져다 대면 바위가 깨지며 합체됩니다.
     내가 선택하는 게임인데도, 바위 때문에 마음대로 되지 않는 것이 넘스톤의 묘미입니다.
   </p>
   <p class="lang-en">
-    The key is the <strong style="color:#f0c040">rocks</strong>. Rocks block your cards and hide secret numbers inside.
+    The key is the <strong>rocks</strong>. Rocks block your cards and hide secret numbers inside.
     Bring the right number close and the rock cracks open — bring the same number and it shatters, merging into your card.
     You choose every move, yet the rocks make nothing go quite as planned.
   </p>
 </div>
 
 <!-- 게임 규칙 -->
-<div class="section">
+<div class="info-card">
   <h2 class="lang-ko">게임 규칙</h2>
   <h2 class="lang-en">How to Play</h2>
-  <div class="rule-grid">
 
-    <div class="rule-card">
-      <div class="rule-icon">🃏</div>
-      <h3 class="lang-ko">숫자 카드 낙하</h3>
-      <h3 class="lang-en">Drop Cards</h3>
-      <p class="lang-ko">대기 카드 3장이 순서대로 준비됩니다. 열을 선택해 카드를 떨어뜨리면 바위나 다른 카드 위에 얹힙니다.</p>
-      <p class="lang-en">3 cards wait in queue. Choose a column to drop the first card — it lands on top of a rock or another card.</p>
-    </div>
+  <h3 class="lang-ko">숫자 카드 낙하</h3>
+  <h3 class="lang-en">Drop Cards</h3>
+  <p class="lang-ko">대기 카드 3장이 순서대로 준비됩니다. 열을 선택해 카드를 떨어뜨리면 바위나 다른 카드 위에 얹힙니다.</p>
+  <p class="lang-en">3 cards wait in queue. Choose a column to drop the first card — it lands on top of a rock or another card.</p>
 
-    <div class="rule-card">
-      <div class="rule-icon">✨</div>
-      <h3 class="lang-ko">숫자 합체</h3>
-      <h3 class="lang-en">Merge Numbers</h3>
-      <p class="lang-ko">상하좌우로 같은 숫자가 인접하면 합체됩니다. 나중에 온 카드가 먼저 있던 카드에 흡수되어 2배가 됩니다. 연쇄 합체도 가능합니다.</p>
-      <p class="lang-en">Matching numbers adjacent in any direction merge. The newer card is absorbed into the older one, doubling its value. Chain merges are possible.</p>
-    </div>
+  <h3 class="lang-ko">숫자 합체</h3>
+  <h3 class="lang-en">Merge Numbers</h3>
+  <p class="lang-ko">상하좌우로 같은 숫자가 인접하면 합체됩니다. 나중에 온 카드가 먼저 있던 카드에 흡수되어 2배가 됩니다. 연쇄 합체도 가능합니다.</p>
+  <p class="lang-en">Matching numbers adjacent in any direction merge. The newer card is absorbed into the older one, doubling its value. Chain merges are possible.</p>
 
-    <div class="rule-card">
-      <div class="rule-icon">🪨</div>
-      <h3 class="lang-ko">바위의 비밀</h3>
-      <h3 class="lang-en">Rock Secrets</h3>
-      <p class="lang-ko">바위 안에는 숫자가 숨겨져 있습니다. 숨겨진 숫자의 절반이 인접하면 숫자가 노출됩니다. 같은 숫자가 인접하면 바위가 깨지며 합체됩니다.</p>
-      <p class="lang-en">Each rock hides a secret number. When half that number touches it, the number is revealed. When the same number touches it, the rock shatters and merges.</p>
-    </div>
+  <h3 class="lang-ko">바위의 비밀</h3>
+  <h3 class="lang-en">Rock Secrets</h3>
+  <p class="lang-ko">바위 안에는 숫자가 숨겨져 있습니다. 숨겨진 숫자의 절반이 인접하면 숫자가 노출됩니다. 같은 숫자가 인접하면 바위가 깨지며 합체됩니다.</p>
+  <p class="lang-en">Each rock hides a secret number. When half that number touches it, the number is revealed. When the same number touches it, the rock shatters and merges.</p>
 
-    <div class="rule-card">
-      <div class="rule-icon">💀</div>
-      <h3 class="lang-ko">게임 오버</h3>
-      <h3 class="lang-en">Game Over</h3>
-      <p class="lang-ko">맨 윗줄이 가득 차면 게임이 종료됩니다. 중간에 빈 자리가 있어도 맨 윗줄 기준으로 판단합니다.</p>
-      <p class="lang-en">The game ends when the top row is full — even if space remains below. Watch the top.</p>
-    </div>
+  <h3 class="lang-ko">게임 오버</h3>
+  <h3 class="lang-en">Game Over</h3>
+  <p class="lang-ko">맨 윗줄이 가득 차면 게임이 종료됩니다. 중간에 빈 자리가 있어도 맨 윗줄 기준으로 판단합니다.</p>
+  <p class="lang-en">The game ends when the top row is full — even if space remains below. Watch the top.</p>
+</div>
 
+<!-- 게임 선택 -->
+<div class="selection-container">
+  <div class="selection-row">
+    <button class="selection-button" onclick="location.href='https://soosooland.com/stone/stone4.html'">
+      <span class="emoji">🪨</span>
+      <div>넘스톤 미니</div>
+      <div class="english-title">Numstone mini</div>
+      <div class="card-desc lang-ko">기본 모드 · 바위 2개 · 4×4 격자</div>
+      <div class="card-desc lang-en">Classic Mode · 2 Rocks · 4×4 Grid</div>
+    </button>
+
+    <button class="selection-button" onclick="location.href='https://soosooland.com/stone/stone4.html'">
+      <span class="emoji">🪨🪨</span>
+      <div>넘스톤 기본</div>
+      <div class="english-title">Numstone medium</div>
+      <div class="card-desc lang-ko">확장 모드 · 바위 3개 · 5×5 격자</div>
+      <div class="card-desc lang-en">Extended Mode · 3 Rocks · 5×5 Grid</div>
+    </button>
   </div>
 </div>
 
 <!-- 조작법 -->
-<div class="section">
+<div class="info-card">
   <h2 class="lang-ko">조작법</h2>
   <h2 class="lang-en">Controls</h2>
   <table class="control-table">
@@ -409,21 +324,15 @@
     </tr>
     <tr>
       <td class="lang-ko">열 버튼 탭</td>
-      <td class="lang-en">Tap column</td>
+      <td class="lang-en">Tap column button</td>
       <td class="lang-ko">카드 낙하 (모바일)</td>
       <td class="lang-en">Drop card (mobile)</td>
     </tr>
   </table>
 </div>
 
-<!-- 푸터 -->
 <footer>
-  <p>
-    <a href="https://soosooland.com">수수랜드 Soosooland</a> · 
-    <span class="lang-ko">광고 없는 두뇌 게임 플랫폼</span>
-    <span class="lang-en">Ad-free Brain Game Platform</span>
-  </p>
-  <p style="margin-top:8px">© 2025 수수랜드. All rights reserved.</p>
+  <p>© 2026 Han Soosoo. All rights reserved.</p>
 </footer>
 
 <script>
