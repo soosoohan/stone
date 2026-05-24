@@ -1,49 +1,620 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <title>(준비중)</title>
-  <style>
-    body {
-      background-color: #209087;
-      color: #fff;
-      text-align: center;
-      font-family: Arial, sans-serif;
-      padding: 60px 20px;
-    }
-    h1 {
-      font-size: 3em;
-      margin-bottom: 0.5em;
-    }
-    p {
-      font-size: 1.2em;
-      margin-bottom: 1em;
-    }
-    .back-button {
-      padding: 12px 24px;
-      font-size: 1em;
-      border: none;
-      border-radius: 10px;
-      background-color: #CFF9FF;
-      color: #0A6A79;
-      cursor: pointer;
-    }
-    .back-button:hover {
-      background-color: #1baf8f;
-      color: white;
-    }
-  </style>
+<head> 
+   <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4YZHC1G9FN"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-4YZHC1G9FN');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Numstone 5x5 | Soosooland</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #1a1a2e;
+    color: #eee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 8px 10px;      /* 모바일 기본 */
+    font-size: 2em;
+    font-weight: bold;
+    background-color: #145454;
+    color: #CFF9FF;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 100;
+}
+.back-button:hover {
+    background-color: #1baf8f;
+    color: #fff;
+}
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 6px;
+    letter-spacing: 2px;
+    color: #f0c040;
+  }
+
+  #score-area {
+    margin-bottom: 14px;
+    font-size: 1.1rem;
+    color: #ccc;
+  }
+
+  #score-area span {
+    color: #f0c040;
+    font-weight: bold;
+    font-size: 1.3rem;
+  }
+
+  #queue-area {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+    align-items: flex-end;
+  }
+
+  .queue-label {
+    font-size: 0.75rem;
+    color: #888;
+    margin-bottom: 4px;
+    text-align: center;
+  }
+
+  .queue-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .queue-card {
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    background: #444;
+    color: #888;
+    transition: all 0.3s;
+  }
+
+  .queue-card.active {
+    transform: scale(1.1);
+    box-shadow: 0 0 12px rgba(240,192,64,0.6);
+  }
+
+  #col-buttons {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 4px;
+  }
+
+  .col-btn {
+    width: 72px;
+    height: 36px;
+    border-radius: 8px;
+    border: none;
+    background: #2a2a4a;
+    color: #aaa;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .col-btn.selected {
+    background: #f0c040;
+    color: #1a1a2e;
+    font-weight: bold;
+  }
+
+  .col-btn:hover { background: #3a3a6a; }
+
+  #grid {
+    display: grid;
+    grid-template-columns: repeat(5, 62px);
+    grid-template-rows: repeat(5, 62px);
+    gap: 4px;
+    background: #111;
+    padding: 6px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  }
+
+  .cell {
+    width: 62px;
+    height: 62px;
+    border-radius: 8px;
+    background: #222;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+    transition: background 0.15s;
+  }
+
+  #drop-btn {
+    margin-top: 14px;
+    padding: 12px 40px;
+    border-radius: 10px;
+    border: none;
+    background: #f0c040;
+    color: #1a1a2e;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: none;
+  }
+
+  #pc-hint {
+    margin-top: 12px;
+    font-size: 0.8rem;
+    color: #666;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  #overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 100;
+  }
+
+  #overlay.show { display: flex; }
+
+  #overlay h2 { font-size: 2.5rem; color: #f0c040; }
+  #overlay p { font-size: 1.2rem; color: #ccc; }
+
+  #restart-btn {
+    padding: 12px 36px;
+    border-radius: 10px;
+    border: none;
+    background: #f0c040;
+    color: #1a1a2e;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  @keyframes merge-pop {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.3); }
+    100% { transform: scale(1); }
+  }
+  .merge-anim { animation: merge-pop 0.2s ease; }
+
+  @keyframes reveal-anim {
+    0%   { transform: scale(1.3); filter: brightness(2); }
+    100% { transform: scale(1);   filter: brightness(1); }
+  }
+  .reveal-anim { animation: reveal-anim 0.35s ease; }
+</style>
 </head>
 <body>
-  <body>
-  <h1>🚧 Under Construction</h1>
-  <p>Please wait a moment 😊</p>
-  <button class="back-button" onclick="location.href='index.html'">← Back to Home</button>
+<button class="back-button"  onclick="location.href='index.html'">←</button>
+<h1>넘스톤 5X5</h1>
+<div id="score-area">점수: <span id="score">0</span></div>
 
-</body>
-<h1>🚧 준비 중입니다</h1>
-  <p>조금만 기다려 주세요 😊</p>
-  <button class="back-button" onclick="location.href='index.html'">← 홈으로 돌아가기</button>
+<div id="queue-area">
+  <div class="queue-slot">
+    <div class="queue-label">다음</div>
+    <div class="queue-card active" id="q0"></div>
+  </div>
+  <div class="queue-slot">
+    <div class="queue-label"></div>
+    <div class="queue-card" id="q1"></div>
+  </div>
+  <div class="queue-slot">
+    <div class="queue-label"></div>
+    <div class="queue-card" id="q2"></div>
+  </div>
+</div>
 
+<div id="col-buttons"></div>
+<div id="grid"></div>
+<button id="drop-btn">▼ 낙하</button>
+
+<div id="pc-hint">
+  ← → 방향키로 열 선택 &nbsp;|&nbsp; Enter로 낙하<br>
+  모바일: 열 버튼 탭 후 낙하 버튼
+</div>
+
+<div id="overlay">
+  <h2>🪨 게임 오버</h2>
+  <p>최종 점수: <strong id="final-score"></strong></p>
+  <button id="restart-btn">다시 시작</button>
+</div>
+
+<script>
+const ROWS = 5, COLS = 5;
+const ROCK_VALUES = [64, 128, 256];
+const NUM_ROCKS = 3;      
+const QUEUE_SIZE = 3;
+
+const COLOR_MAP = {
+  2:    { bg: '#a8e063', fg: '#2a5a00' },
+  4:    { bg: '#56ab2f', fg: '#fff' },
+  8:    { bg: '#0abdc6', fg: '#fff' },
+  16:   { bg: '#007ec6', fg: '#fff' },
+  32:   { bg: '#9b59b6', fg: '#fff' },
+  64:   { bg: '#e91e8c', fg: '#fff' },
+  128:  { bg: '#f39c12', fg: '#fff' },
+  256:  { bg: '#e74c3c', fg: '#fff' },
+  512:  { bg: '#c0392b', fg: '#fff' },
+  1024: { bg: '#bdc3c7', fg: '#2c3e50' },
+  2048: { bg: '#f0f0f0', fg: '#e67e22' },
+};
+
+function getColor(val) {
+  return COLOR_MAP[val] || { bg: '#f0c040', fg: '#1a1a2e' };
+}
+
+// board cell: { value, isRock, hidden }
+// isRock: 바위(장애물), hidden: 숫자 미공개 상태
+let board, queue, selectedCol, score, gameOver, isMobile;
+// landedAt: 가장 최근에 착지/생성된 셀 위치 (합체 기준 "나중")
+// 합체 우선순위: 먼저 있던 쪽이 흡수 → 나중에 온 쪽이 사라짐
+
+function init() {
+  score = 0;
+  gameOver = false;
+  selectedCol = 0;
+  document.getElementById('score').textContent = '0';
+  document.getElementById('overlay').classList.remove('show');
+
+  board = Array.from({ length: ROWS }, () =>
+    Array.from({ length: COLS }, () => ({ value: 0, isRock: false, hidden: false }))
+  );
+
+  // 바위 배치: row 1~3 (맨 위 행 제외), 서로 다른 열
+    const rockCols = shuffleArray([0,1,2,3,4]).slice(0, NUM_ROCKS);
+  rockCols.forEach(c => {
+    const r = 1 + Math.floor(Math.random() * (ROWS - 1));
+    const rv = ROCK_VALUES[Math.floor(Math.random() * ROCK_VALUES.length)];
+    board[r][c] = { value: rv, isRock: true, hidden: true };
+  });
+
+  queue = Array.from({ length: QUEUE_SIZE + 10 }, randomCard);
+
+  isMobile = window.innerWidth <= 640 || 'ontouchstart' in window;
+  document.getElementById('drop-btn').style.display = isMobile ? 'block' : 'none';
+  document.getElementById('pc-hint').style.display = isMobile ? 'none' : 'block';
+
+  buildGrid();
+  buildColButtons();
+  updateQueueUI();
+  renderBoard();
+  highlightCol();
+}
+
+function shuffleArray(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function randomCard() {
+  const r = Math.random() * 100;
+  if (r < 50) return 2;
+  if (r < 85) return 4;
+  return 8;
+}
+
+// ── DOM ───────────────────────────────────────────────
+function buildGrid() {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      const cell = document.createElement('div');
+      cell.className = 'cell';
+      cell.id = `cell-${r}-${c}`;
+      grid.appendChild(cell);
+    }
+  }
+}
+
+function buildColButtons() {
+  const container = document.getElementById('col-buttons');
+  container.innerHTML = '';
+  for (let c = 0; c < COLS; c++) {
+    const btn = document.createElement('button');
+    btn.className = 'col-btn' + (c === selectedCol ? ' selected' : '');
+    btn.textContent = `${c + 1}열`;
+    btn.dataset.col = c;
+    btn.addEventListener('click', () => {
+      selectedCol = c;
+      highlightCol();
+      if (isMobile) return; // 모바일은 낙하 버튼 따로
+      dropCard();
+    });
+    container.appendChild(btn);
+  }
+}
+
+function highlightCol() {
+  document.querySelectorAll('.col-btn').forEach((btn, i) => {
+    btn.classList.toggle('selected', i === selectedCol);
+  });
+}
+
+// ── 렌더링 ────────────────────────────────────────────
+function renderBoard(mergeSet, revealSet) {
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      const el = document.getElementById(`cell-${r}-${c}`);
+      const d = board[r][c];
+
+      // 애니메이션 초기화
+      el.classList.remove('merge-anim', 'reveal-anim');
+      void el.offsetWidth; // reflow
+
+      if (mergeSet && mergeSet.has(`${r}-${c}`)) el.classList.add('merge-anim');
+      if (revealSet && revealSet.has(`${r}-${c}`)) el.classList.add('reveal-anim');
+
+      if (d.isRock && d.hidden) {
+        el.style.background = '#2d2d2d';
+        el.style.color = '#555';
+        el.style.border = '3px solid #444';
+        el.textContent = '🪨';
+        el.style.fontSize = '1.8rem';
+      } else if (d.isRock && !d.hidden) {
+        const col = getColor(d.value);
+        el.style.background = col.bg;
+        el.style.color = col.fg;
+        el.style.border = '3px dashed #fff8';
+        el.textContent = d.value;
+        el.style.fontSize = fontSize(d.value);
+      } else if (d.value > 0) {
+        const col = getColor(d.value);
+        el.style.background = col.bg;
+        el.style.color = col.fg;
+        el.style.border = 'none';
+        el.textContent = d.value;
+        el.style.fontSize = fontSize(d.value);
+      } else {
+        el.style.background = '#222';
+        el.style.color = '#555';
+        el.style.border = 'none';
+        el.textContent = '';
+        el.style.fontSize = '1.4rem';
+      }
+    }
+  }
+}
+
+function fontSize(v) {
+  if (v >= 1000) return '1rem';
+  if (v >= 100)  return '1.2rem';
+  return '1.4rem';
+}
+
+function updateQueueUI() {
+  for (let i = 0; i < QUEUE_SIZE; i++) {
+    const el = document.getElementById(`q${i}`);
+    if (!el) continue;
+    const val = queue[i];
+    el.textContent = val ?? '';
+    el.style.background = i === 0 ? '#555' : '#333';
+    el.style.color      = i === 0 ? '#eee' : '#777';
+    el.className = 'queue-card' + (i === 0 ? ' active' : '');
+  }
+}
+
+// ── 낙하 ──────────────────────────────────────────────
+function dropCard() {
+  if (gameOver) return;
+
+  const col = selectedCol;
+  const cardVal = queue[0];
+
+  // 착지 위치 계산: 위에서 내려오다가 바위 또는 바닥에서 멈춤
+  let targetRow = -1;
+  for (let r = ROWS - 1; r >= 0; r--) {
+    const cell = board[r][col];
+    if (cell.isRock) break;          // 바위 위에 얹힘
+    if (cell.value === 0) {
+      targetRow = r;
+      break;
+    }
+  }
+
+  // 위에서 내려오면서 첫 번째 빈 칸 찾기 (바위 위까지)
+  // 다시 계산: 맨 위부터 내려오면서 바위 or 숫자 만나기 직전 빈 칸
+  targetRow = -1;
+  for (let r = 0; r < ROWS; r++) {
+    const cell = board[r][col];
+    if (cell.isRock || cell.value > 0) {
+      // 바로 위 행이 비어있으면 거기 착지
+      if (r > 0 && board[r-1][col].value === 0 && !board[r-1][col].isRock) {
+        targetRow = r - 1;
+      }
+      break;
+    }
+    if (r === ROWS - 1) {
+      // 끝까지 빈 칸
+      targetRow = r;
+    }
+  }
+
+  if (targetRow === -1) {
+    // 해당 열에 자리 없음
+    checkGameOver();
+    return;
+  }
+
+  // 착지
+  board[targetRow][col] = { value: cardVal, isRock: false, hidden: false };
+  queue.shift();
+  queue.push(randomCard());
+  updateQueueUI();
+
+  // 합체 + 연쇄 처리
+  const mergeSet  = new Set();
+  const revealSet = new Set();
+  runMergeLoop(targetRow, col, mergeSet, revealSet);
+
+  renderBoard(mergeSet, revealSet);
+  checkGameOver();
+}
+
+// ── 합체 엔진 ─────────────────────────────────────────
+// "나중에 온 것"이 "먼저 있던 것"에 흡수됨
+// 방금 착지/생성된 셀을 추적하여 그 셀이 소멸되는 방향으로 처리
+
+function runMergeLoop(newR, newC, mergeSet, revealSet) {
+  // BFS/반복: 새로 생긴 셀 위치에서 출발
+  // 새 셀 기준으로 상하좌우 확인 → 같은 값 있으면 새 셀이 흡수당함(사라짐)
+  // 흡수된 쪽(먼저 있던 칸)이 2배가 되고, 그 칸이 새 "신규 셀"이 됨
+  // 연쇄: 새 값으로 다시 주변 확인
+
+  let queue = [{ r: newR, c: newC }];
+
+  while (queue.length > 0) {
+    const next = [];
+
+    for (const { r, c } of queue) {
+      if (board[r][c].value === 0) continue;
+      const val = board[r][c].value;
+      const dirs = [[-1,0],[1,0],[0,-1],[0,1]];
+
+      for (const [dr, dc] of dirs) {
+        const nr = r + dr, nc = c + dc;
+        if (nr < 0 || nr >= ROWS || nc < 0 || nc >= COLS) continue;
+        const nb = board[nr][nc];
+
+        // 바위 처리
+        if (nb.isRock) {
+          if (nb.hidden && nb.value === val * 2) {
+            // 바위 숨김 숫자의 절반 → 노출
+            board[nr][nc].hidden = false;
+            revealSet.add(`${nr}-${nc}`);
+          } else if (!nb.hidden && nb.value === val) {
+            // 같은 숫자 → 바위 파괴, 먼저 있던 바위가 흡수
+            score += val * 2;
+            document.getElementById('score').textContent = score;
+            board[nr][nc] = { value: val * 2, isRock: false, hidden: false };
+            board[r][c]   = { value: 0, isRock: false, hidden: false };
+            mergeSet.add(`${nr}-${nc}`);
+            next.push({ r: nr, c: nc }); // 새로 생긴 값으로 연쇄
+          }
+          continue;
+        }
+
+        // 일반 합체: 같은 값이면 현재 셀(나중)이 이웃(먼저)에 흡수
+        if (nb.value === val) {
+          score += val * 2;
+          document.getElementById('score').textContent = score;
+          board[nr][nc] = { value: val * 2, isRock: false, hidden: false };
+          board[r][c]   = { value: 0, isRock: false, hidden: false };
+          mergeSet.add(`${nr}-${nc}`);
+          next.push({ r: nr, c: nc }); // 흡수한 셀이 연쇄 주체
+          break; // 한 방향만 합체 (이 셀은 사라졌으니)
+        }
+      }
+    }
+
+    queue = next;
+  }
+
+  // 중력 적용 (합체로 빈 칸 생겼을 수 있음)
+  applyGravityAll();
+}
+
+function applyGravityAll() {
+  for (let c = 0; c < COLS; c++) {
+    // 각 열에서 값들을 아래로 모음 (바위는 고정)
+    // 바위를 기준으로 구간 나눔
+    let segments = getColumnSegments(c);
+    segments.forEach(seg => compactDown(c, seg));
+  }
+}
+
+function getColumnSegments(c) {
+  // 바위 위치 기준으로 구간 분리
+  const segments = [];
+  let start = 0;
+  for (let r = 0; r < ROWS; r++) {
+    if (board[r][c].isRock) {
+      if (r > start) segments.push({ from: start, to: r - 1 });
+      start = r + 1;
+    }
+  }
+  if (start < ROWS) segments.push({ from: start, to: ROWS - 1 });
+  return segments;
+}
+
+function compactDown(c, { from, to }) {
+  // 해당 구간에서 값을 아래로 몰기
+  let writeRow = to;
+  for (let r = to; r >= from; r--) {
+    if (board[r][c].value > 0 && !board[r][c].isRock) {
+      if (r !== writeRow) {
+        board[writeRow][c] = { ...board[r][c] };
+        board[r][c] = { value: 0, isRock: false, hidden: false };
+      }
+      writeRow--;
+    }
+  }
+  // 남은 빈 칸 정리
+  for (let r = writeRow; r >= from; r--) {
+    board[r][c] = { value: 0, isRock: false, hidden: false };
+  }
+}
+
+// ── 게임오버 ──────────────────────────────────────────
+function checkGameOver() {
+  for (let c = 0; c < COLS; c++) {
+    const cell = board[0][c];
+    if (!cell.isRock && cell.value === 0) return;
+  }
+  gameOver = true;
+  document.getElementById('final-score').textContent = score;
+  document.getElementById('overlay').classList.add('show');
+}
+
+// ── 키보드 ────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (gameOver) return;
+  if (e.key === 'ArrowLeft')  { e.preventDefault(); selectedCol = Math.max(0, selectedCol - 1); highlightCol(); }
+  if (e.key === 'ArrowRight') { e.preventDefault(); selectedCol = Math.min(COLS - 1, selectedCol + 1); highlightCol(); }
+  if (e.key === 'Enter')      { dropCard(); }
+});
+
+document.getElementById('drop-btn').addEventListener('click', dropCard);
+document.getElementById('restart-btn').addEventListener('click', init);
+
+init();
+</script>
 </body>
 </html>
