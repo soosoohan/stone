@@ -19,6 +19,10 @@
 <meta property="og:description" content="바위를 깨워라 — 숫자 합체 퍼즐">
 <meta property="og:image" content="https://soosooland.com/images/stone.png">
 <meta property="og:url" content="https://soosooland.com/stone/stone4.html">
+
+<link rel="stylesheet" href="https://soosooland.com/css/protection.css"> 
+<script src="https://soosooland.com/js/protection.js"></script>
+
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -305,6 +309,8 @@
   }
   .reveal-anim { animation: reveal-anim 0.35s ease; }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
 </head>
 <body>
 
@@ -332,6 +338,8 @@
 </div>
 
 <!-- 게임 화면 -->
+<button class="back-button"  onclick="location.href='index.html'">←</button>
+
 <h1>🪨 넘스톤</h1>
 <div id="score-area">점수: <span id="score">0</span></div>
 
@@ -628,15 +636,17 @@ function runMergeLoop(newR, newC, mergeSet, revealSet) {
           continue;
         }
 
-        if (nb.value === val) {
-          score += val * 2;
-          document.getElementById('score').textContent = score;
-          board[nr][nc] = { value: val * 2, isRock: false, hidden: false };
-          board[r][c]   = { value: 0, isRock: false, hidden: false };
-          mergeSet.add(`${nr}-${nc}`);
-          next.push({ r: nr, c: nc });
-          break;
-        }
+if (nb.value === val) {
+  const newVal = val * 2;  // 이 줄 있어야 해요
+  score += newVal;
+  document.getElementById('score').textContent = score;
+  board[nr][nc] = { value: newVal, isRock: false, hidden: false };
+  board[r][c]   = { value: 0, isRock: false, hidden: false };
+  mergeSet.add(`${nr}-${nc}`);
+  next.push({ r: nr, c: nc });
+  if (newVal === 1024) fireConfetti();  // break 전에
+  break;
+}
       }
     }
     q = next;
@@ -704,6 +714,24 @@ document.getElementById('change-diff-btn').addEventListener('click', () => {
   document.getElementById('overlay').classList.remove('show');
   document.getElementById('start-screen').style.display = 'flex';
 });
+function fireConfetti() {
+  const canvas = document.createElement('canvas');
+  canvas.style.cssText = `
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 99999;
+    pointer-events: none;
+  `;
+  document.body.appendChild(canvas);
+
+  const myConfetti = confetti.create(canvas, { resize: true });
+  myConfetti({ particleCount: 80, angle: 60,  spread: 70, origin: { x: 0, y: 0.7 } });
+  myConfetti({ particleCount: 80, angle: 120, spread: 70, origin: { x: 1, y: 0.7 } });
+
+  setTimeout(() => canvas.remove(), 4000);
+}
+
 </script>
 </body>
 </html>
