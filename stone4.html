@@ -644,7 +644,7 @@ if (nb.value === val) {
   board[r][c]   = { value: 0, isRock: false, hidden: false };
   mergeSet.add(`${nr}-${nc}`);
   next.push({ r: nr, c: nc });
-  if (newVal === 512) fireConfetti();  // break 전에
+  if (newVal === 256) fireConfetti();  // break 전에
   break;
 }
       }
