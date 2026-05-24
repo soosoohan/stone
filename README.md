@@ -2,10 +2,10 @@
 
 넘스톤(Numstone)은 넘버(Number)와 스톤(Stone)을 결합한 이름입니다.
 
-    넘스톤은 숫자 카드를 격자에 떨어뜨려 같은 숫자끼리 합체시키는 전략 퍼즐 게임입니다.  
-    열을 선택해 카드를 드롭하고, 숫자를 합체시켜 더 큰 수를 만드세요 — 시간 압박은 없습니다.  
-   Numstone is a strategic puzzle game where you drop number cards onto a grid and merge matching numbers together.  
-    Choose a column, drop your card, and merge your way to bigger numbers — no time pressure. 
+넘스톤은 숫자 카드를 격자에 떨어뜨려 같은 숫자끼리 합체시키는 전략 퍼즐 게임입니다.  
+열을 선택해 카드를 드롭하고, 숫자를 합체시켜 더 큰 수를 만드세요 — 시간 압박은 없습니다.  
+Numstone is a strategic puzzle game where you drop number cards onto a grid and merge matching numbers together.  
+Choose a column, drop your card, and merge your way to bigger numbers — no time pressure. 
 
 ### 게임 방법 / How to Play  
 
