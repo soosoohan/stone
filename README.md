@@ -1,3 +1,8 @@
+## ⚠️ Copyright Notice | 저작권 안내 | کاپی رائٹ نوٹس  
+
+All games are registered copyrights. Unauthorized copying or redistribution is prohibited.  
+모든 게임은 저작권 등록된 창작물입니다. 무단 복제 및 배포를 금합니다.  
+تمام گیمز کاپی رائٹ محفوظ ہیں۔ غیر مجاز نقل ممنوع ہے۔
   ## 👤 넘스톤( Numstone)
 
 넘스톤(Numstone)은 넘버(Number)와 스톤(Stone)을 결합한 이름입니다.
