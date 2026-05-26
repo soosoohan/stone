@@ -473,7 +473,7 @@ function buildColButtons() {
   for (let c = 0; c < COLS; c++) {
     const btn = document.createElement('button');
     btn.className = 'col-btn' + (c === selectedCol ? ' selected' : '');
-    btn.textContent = `${c + 1}열`;
+    btn.textContent = '▼';
     btn.addEventListener('click', () => {
       selectedCol = c;
       highlightCol();
