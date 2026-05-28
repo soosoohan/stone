@@ -704,7 +704,7 @@ document.addEventListener('keydown', e => {
   if (gameOver) return;
   if (e.key === 'ArrowLeft')  { e.preventDefault(); selectedCol = Math.max(0, selectedCol - 1); highlightCol(); }
   if (e.key === 'ArrowRight') { e.preventDefault(); selectedCol = Math.min(COLS - 1, selectedCol + 1); highlightCol(); }
-  if (e.key === 'Enter')      { dropCard(); }
+  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); dropCard(); }
 });
 
 document.getElementById('drop-btn').addEventListener('click', dropCard);
