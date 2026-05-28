@@ -579,13 +579,15 @@ function renderBoard(mergeSet, revealSet) {
         el.style.border = '3px solid #444';
         el.textContent = '🪨';
         el.style.fontSize = '1.4rem';
-      } else if (d.isRock && !d.hidden) {
-        const col = getColor(d.value);
-        el.style.background = col.bg;
-        el.style.color = col.fg;
-        el.style.border = '3px dashed #fff8';
-        el.textContent = d.value;
-        el.style.fontSize = fontSize(d.value);
+     
+            } else if (d.isRock && !d.hidden) {
+  el.style.background = '#4a4a4a';  // 어두운 돌 색
+  el.style.color = '#f0c040';       // 노란 숫자
+  el.style.border = '3px solid #888';
+  el.textContent = d.value;
+  el.style.fontSize = fontSize(d.value);
+}
+
       } else if (d.value > 0) {
         const col = getColor(d.value);
         el.style.background = col.bg;
