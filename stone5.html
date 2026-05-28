@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -22,9 +23,6 @@
 <link rel="stylesheet" href="https://soosooland.com/css/protection.css"> 
 <script src="https://soosooland.com/js/protection.js"></script>
 
-<link rel="stylesheet" href="https://soosooland.com/css/protection.css"> 
-<script src="https://soosooland.com/js/protection.js"></script>
-
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -38,11 +36,12 @@
     min-height: 100vh;
     padding: 20px;
   }
-.back-button {
+
+  .back-button {
     position: absolute;
     top: 20px;
     left: 20px;
-    padding: 8px 10px;      /* 모바일 기본 */
+    padding: 8px 10px;
     font-size: 2em;
     font-weight: bold;
     background-color: #1a1a2e;
@@ -52,11 +51,11 @@
     cursor: pointer;
     transition: all 0.3s ease;
     z-index: 100;
-}
-.back-button:hover {
+  }
+  .back-button:hover {
     background-color: #1baf8f;
     color: #fff;
-}
+  }
 
   h1 {
     font-size: 2rem;
@@ -133,23 +132,30 @@
 
   .col-btn {
     width: 62px;
-    height: 32px;
+    height: 40px;
     border-radius: 8px;
     border: none;
     background: #2a2a4a;
-    color: #aaa;
-    font-size: 1.1rem;
+    color: #444;
+    font-size: 1.4rem;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.15s ease;
+    line-height: 1;
+    padding: 0;
   }
 
   .col-btn.selected {
     background: #f0c040;
     color: #1a1a2e;
-    font-weight: bold;
+    font-size: 1.8rem;
+    transform: translateY(4px);
+    box-shadow: 0 4px 12px rgba(240,192,64,0.5);
   }
 
-  .col-btn:hover { background: #3a3a6a; }
+  .col-btn:hover:not(.selected) {
+    background: #3a3a6a;
+    color: #888;
+  }
 
   #grid {
     display: grid;
@@ -205,22 +211,32 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 24px;
+    gap: 20px;
     z-index: 200;
+    padding: 20px;
   }
 
   #start-screen h1 { font-size: 2.8rem; margin-bottom: 0; }
   #start-screen .subtitle { color: #888; font-size: 0.95rem; }
 
+  .section-label {
+    font-size: 0.8rem;
+    color: #888;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    align-self: flex-start;
+    width: 240px;
+  }
+
   .difficulty-buttons {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
     width: 240px;
   }
 
   .diff-btn {
-    padding: 14px 20px;
+    padding: 12px 16px;
     border-radius: 12px;
     border: 2px solid transparent;
     font-size: 1rem;
@@ -236,11 +252,60 @@
   .diff-btn .diff-cards { font-size: 0.8rem; opacity: 0.8; }
 
   .diff-btn.easy   { background: #1a3a1a; border-color: #56ab2f; color: #a8e063; }
-  .diff-btn.easy:hover { background: #2a5a2a; }
+  .diff-btn.easy:hover   { background: #2a5a2a; }
   .diff-btn.normal { background: #3a2a1a; border-color: #f39c12; color: #f0c040; }
   .diff-btn.normal:hover { background: #5a3a1a; }
   .diff-btn.hard   { background: #3a1a1a; border-color: #e74c3c; color: #ff8888; }
-  .diff-btn.hard:hover { background: #5a1a1a; }
+  .diff-btn.hard:hover   { background: #5a1a1a; }
+
+  /* 바위 선택 */
+  .rock-buttons {
+    display: flex;
+    gap: 10px;
+    width: 240px;
+  }
+
+  .rock-btn {
+    flex: 1;
+    padding: 12px 8px;
+    border-radius: 12px;
+    border: 2px solid #333;
+    background: #2a2a4a;
+    color: #888;
+    font-size: 0.95rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    line-height: 1.5;
+  }
+
+  .rock-btn .rock-emoji { font-size: 1.1rem; display: block; margin-bottom: 2px; }
+  .rock-btn .rock-count { font-size: 0.75rem; display: block; color: #666; }
+
+  .rock-btn:hover { background: #3a3a6a; border-color: #555; }
+
+  .rock-btn.selected {
+    background: #2a2a5a;
+    border-color: #f0c040;
+    color: #f0c040;
+  }
+  .rock-btn.selected .rock-count { color: #f0c040; opacity: 0.7; }
+
+  .start-btn {
+    width: 240px;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    background: #f0c040;
+    color: #1a1a2e;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 4px;
+  }
+  .start-btn:hover { background: #ffd060; transform: translateY(-2px); }
 
   /* 게임오버 */
   #overlay {
@@ -296,30 +361,49 @@
   .reveal-anim { animation: reveal-anim 0.35s ease; }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
 </head>
 <body>
 
 <!-- 시작 화면 -->
 <div id="start-screen">
- <button class="back-button"  onclick="location.href='index.html'">←</button>
- <h1>넘스톤 5X5</h1>
+  <button class="back-button" onclick="location.href='index.html'">←</button>
+  <h1>넘스톤 5×5</h1>
   <p class="subtitle">숫자 합체 퍼즐 5×5</p>
+
+  <div class="section-label">난이도</div>
   <div class="difficulty-buttons">
-    <button class="diff-btn easy"   onclick="startGame('easy')">
+    <button class="diff-btn easy"   onclick="selectDiff('easy',   this)">
       <span>🟢</span><span class="diff-label">쉬움</span><span class="diff-cards">2, 4</span>
     </button>
-    <button class="diff-btn normal" onclick="startGame('normal')">
+    <button class="diff-btn normal" onclick="selectDiff('normal', this)">
       <span>🟡</span><span class="diff-label">보통</span><span class="diff-cards">2, 4, 8</span>
     </button>
-    <button class="diff-btn hard"   onclick="startGame('hard')">
+    <button class="diff-btn hard"   onclick="selectDiff('hard',   this)">
       <span>🔴</span><span class="diff-label">어려움</span><span class="diff-cards">2, 4, 8, 16</span>
     </button>
   </div>
+
+  <div class="section-label">바위 개수</div>
+  <div class="rock-buttons">
+    <button class="rock-btn" onclick="selectRocks(1, this)">
+      <span class="rock-emoji">🪨</span>
+      <span class="rock-count">1개</span>
+    </button>
+    <button class="rock-btn" onclick="selectRocks(2, this)">
+      <span class="rock-emoji">🪨🪨</span>
+      <span class="rock-count">2개</span>
+    </button>
+    <button class="rock-btn selected" onclick="selectRocks(3, this)">
+      <span class="rock-emoji">🪨🪨🪨</span>
+      <span class="rock-count">3개</span>
+    </button>
+  </div>
+
+  <button class="start-btn" onclick="startGame()">게임 시작</button>
 </div>
 
 <!-- 게임 화면 -->
-<button class="back-button"  onclick="location.href='index.html'">←</button>
+<button class="back-button" onclick="location.href='index.html'">←</button>
 
 <h1>🪨 넘스톤</h1>
 <div class="version-badge">5×5 확장 모드</div>
@@ -353,14 +437,13 @@
   <h2>🪨 게임 오버</h2>
   <p>최종 점수: <strong id="final-score"></strong></p>
   <p class="diff-badge" id="diff-result"></p>
-  <button id="restart-btn">같은 난이도로 다시</button>
-  <button id="change-diff-btn">난이도 바꾸기</button>
+  <button id="restart-btn">같은 설정으로 다시</button>
+  <button id="change-diff-btn">설정 바꾸기</button>
 </div>
 
 <script>
 const ROWS = 5, COLS = 5;
 const ROCK_VALUES = [64, 128, 256];
-const NUM_ROCKS = 3;
 const QUEUE_SIZE = 3;
 
 const DIFFICULTY_CARDS = {
@@ -393,10 +476,28 @@ function getColor(val) {
   return COLOR_MAP[val] || { bg: '#f0c040', fg: '#1a1a2e' };
 }
 
-let board, queue, selectedCol, score, gameOver, isMobile, currentDifficulty;
+let board, queue, selectedCol, score, gameOver, isMobile;
+let currentDifficulty = 'normal';
+let currentRocks = 3;
 
-function startGame(difficulty) {
-  currentDifficulty = difficulty;
+// 시작 화면 선택
+function selectDiff(diff, el) {
+  currentDifficulty = diff;
+  document.querySelectorAll('.diff-btn').forEach(b => b.style.opacity = '0.45');
+  el.style.opacity = '1';
+}
+
+function selectRocks(n, el) {
+  currentRocks = n;
+  document.querySelectorAll('.rock-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function startGame() {
+  if (!currentDifficulty) {
+    // 난이도 미선택 시 보통으로 기본값
+    currentDifficulty = 'normal';
+  }
   document.getElementById('start-screen').style.display = 'none';
   init();
 }
@@ -412,7 +513,7 @@ function init() {
     Array.from({ length: COLS }, () => ({ value: 0, isRock: false, hidden: false }))
   );
 
-  const rockCols = shuffleArray([0,1,2,3,4]).slice(0, NUM_ROCKS);
+  const rockCols = shuffleArray([0,1,2,3,4]).slice(0, currentRocks);
   rockCols.forEach(c => {
     const r = 1 + Math.floor(Math.random() * (ROWS - 1));
     const rv = ROCK_VALUES[Math.floor(Math.random() * ROCK_VALUES.length)];
@@ -617,16 +718,16 @@ function runMergeLoop(newR, newC, mergeSet, revealSet) {
         }
 
         if (nb.value === val) {
-  const newVal = val * 2;  // 이 줄 있어야 해요
-  score += newVal;
-  document.getElementById('score').textContent = score;
-  board[nr][nc] = { value: newVal, isRock: false, hidden: false };
-  board[r][c]   = { value: 0, isRock: false, hidden: false };
-  mergeSet.add(`${nr}-${nc}`);
-  next.push({ r: nr, c: nc });
-  if (newVal === 512) fireConfetti();  
-  break;
-}
+          const newVal = val * 2;
+          score += newVal;
+          document.getElementById('score').textContent = score;
+          board[nr][nc] = { value: newVal, isRock: false, hidden: false };
+          board[r][c]   = { value: 0, isRock: false, hidden: false };
+          mergeSet.add(`${nr}-${nc}`);
+          next.push({ r: nr, c: nc });
+          if (newVal === 512) fireConfetti();
+          break;
+        }
       }
     }
     q = next;
@@ -677,7 +778,8 @@ function checkGameOver() {
   }
   gameOver = true;
   document.getElementById('final-score').textContent = score;
-  document.getElementById('diff-result').textContent = DIFFICULTY_LABEL[currentDifficulty];
+  document.getElementById('diff-result').textContent =
+    DIFFICULTY_LABEL[currentDifficulty] + ' · 바위 ' + currentRocks + '개';
   document.getElementById('overlay').classList.add('show');
 }
 
@@ -712,7 +814,6 @@ function fireConfetti() {
 
   setTimeout(() => canvas.remove(), 4000);
 }
-
 </script>
 </body>
 </html>
