@@ -241,7 +241,7 @@
 </style>
 </head>
 
-<body class="ko">
+<body class="ko" onload="initLanguage()">
 
 <button id="lang-toggle" onclick="toggleLang()">English</button>
 
@@ -369,12 +369,26 @@ function toggleLang() {
     body.classList.replace('ko', 'en');
     document.documentElement.lang = 'en';
     btn.textContent = '한국어';
+    localStorage.setItem('soosoo-lang', 'en'); // 여기
   } else {
     body.classList.replace('en', 'ko');
     document.documentElement.lang = 'ko';
     btn.textContent = 'EN';
+    localStorage.setItem('soosoo-lang', 'ko'); // 여기
   }
 }
+  function initLanguage() {
+  const saved = localStorage.getItem('soosoo-lang');
+  const lang = saved || (navigator.language.startsWith('ko') ? 'ko' : 'en');
+  const body = document.body;
+  const btn = document.getElementById('lang-toggle');
+  if (lang === 'en') {
+    body.classList.replace('ko', 'en');
+    document.documentElement.lang = 'en';
+    btn.textContent = '한국어';
+  }
+}
+
 </script>
 </body>
 </html>
