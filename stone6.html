@@ -189,7 +189,6 @@
     line-height: 1.6;
   }
 
-  /* 랭킹 */
   .ranking-title {
     font-size: 0.9rem;
     color: #f0c040;
@@ -218,7 +217,6 @@
     max-width: 340px;
   }
 
-  /* 게임오버 */
   #overlay {
     display: none;
     position: fixed;
@@ -242,37 +240,14 @@
     font-weight: bold;
   }
 
-  .nickname-row {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
-
-  #nickname-input {
-    padding: 8px 12px;
-    border-radius: 8px;
-    border: 1px solid #444;
-    background: #2a2a4a;
-    color: #eee;
-    font-size: 1rem;
-    width: 140px;
-    text-align: center;
-  }
-
-  #submit-btn {
-    padding: 8px 16px;
-    border-radius: 8px;
-    border: none;
-    background: #f0c040;
-    color: #1a1a2e;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 1rem;
-  }
-  #submit-btn:disabled {
-    background: #555;
+  /* 내 ID 표시 배지 */
+  #my-id-badge {
+    font-size: 0.85rem;
     color: #888;
-    cursor: default;
+    background: #2a2a4a;
+    padding: 6px 14px;
+    border-radius: 8px;
+    letter-spacing: 2px;
   }
 
   #overlay-ranking {
@@ -337,20 +312,12 @@
   모바일: 열 버튼 탭 후 낙하 버튼
 </div>
 
-<div id="live-ranking">
-  <div class="ranking-title">🏆 TOP 10</div>
-  <div id="live-ranking-list"></div>
-</div>
-
 <!-- 게임오버 -->
 <div id="overlay">
   <h2>🪨 게임 오버</h2>
   <p>최종 점수: <strong id="final-score"></strong></p>
   <p class="my-rank-badge" id="my-rank-text"></p>
-  <div class="nickname-row">
-    <input id="nickname-input" maxlength="10" placeholder="닉네임">
-    <button id="submit-btn" onclick="submitScore()">등록</button>
-  </div>
+  <div id="my-id-badge"></div>
   <div id="overlay-ranking"></div>
   <button id="restart-btn">다시 도전</button>
 </div>
@@ -362,23 +329,28 @@
     from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
   const firebaseConfig = {
-  apiKey: "AIzaSyDpe1rRJbCO8t_yXDAzArhLS2fJ-z8TRJ8",
-  authDomain: "numstone-fcc75.firebaseapp.com",
-  projectId: "numstone-fcc75",
-  storageBucket: "numstone-fcc75.firebasestorage.app",
-  messagingSenderId: "162509373871",
-  appId: "1:162509373871:web:7a613044da3a1f91d76f5a",
-  measurementId: "G-B37HSD6GW9"
-};
+    apiKey: "AIzaSyDpe1rRJbCO8t_yXDAzArhLS2fJ-z8TRJ8",
+    authDomain: "numstone-fcc75.firebaseapp.com",
+    projectId: "numstone-fcc75",
+    storageBucket: "numstone-fcc75.firebasestorage.app",
+    messagingSenderId: "162509373871",
+    appId: "1:162509373871:web:7a613044da3a1f91d76f5a",
+    measurementId: "G-B37HSD6GW9"
+  };
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
+  // 자음 + 숫자 조합 — 의미있는 단어 생성 불가
   function getOrCreateUserId() {
     let uid = localStorage.getItem('numtle_uid');
     if (!uid) {
-      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-      uid = Array.from({length: 6}, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+      const C = 'BCDFGHJKLMNPQRSTVWXZ'; // 모음 없음
+      const D = '0123456789';
+      const rc = () => C[Math.floor(Math.random() * C.length)];
+      const rd = () => D[Math.floor(Math.random() * D.length)];
+      // 자음2 + 숫자2 + 자음2 패턴 → 6자리
+      uid = rc() + rc() + rd() + rd() + rc() + rc();
       localStorage.setItem('numtle_uid', uid);
     }
     return uid;
@@ -386,18 +358,17 @@
 
   window.getOrCreateUserId = getOrCreateUserId;
 
-  
-window.saveScore = async function(score, nickname, isAuto) {
-  try {
-    await addDoc(collection(db, "scores"), {
-      nickname: nickname || getOrCreateUserId(),
-      score,
-      isAuto: isAuto === true,
-      mode: "numstone_battle",
-      timestamp: new Date()
-    });
-  } catch (e) {}
-};
+  window.saveScore = async function(score, nickname) {
+    try {
+      await addDoc(collection(db, "scores"), {
+        nickname,
+        score,
+        isAuto: true,
+        mode: "numstone_battle",
+        timestamp: new Date()
+      });
+    } catch (e) {}
+  };
 
   window.getRankings = async function() {
     try {
@@ -426,23 +397,6 @@ window.saveScore = async function(score, nickname, isAuto) {
     } catch (e) { return null; }
   };
 
-  window.loadRanking = async function(highlightNick) {
-  const list = document.getElementById('live-ranking-list');
-  if (!list) return;
-  const rankings = await window.getRankings();
-  const myUid = highlightNick || getOrCreateUserId();
-  if (rankings.length === 0) {
-    list.innerHTML = '<div style="text-align:center;color:#555;font-size:0.85rem;padding:8px">아직 기록이 없어요</div>';
-    return;
-  }
-  list.innerHTML = rankings.map((r, i) => `
-    <div class="ranking-row ${r.nickname === myUid ? 'me' : ''}">
-      <span class="rank-num">${i + 1}</span>
-      <span class="rank-name">${r.isAuto ? '⭐ ' : ''}${r.nickname}</span>
-      <span class="rank-score">${r.score.toLocaleString()}</span>
-    </div>
-  `).join('');
-};
 </script>
 
 <script>
@@ -484,7 +438,6 @@ function init() {
     Array.from({ length: COLS }, () => ({ value: 0, isRock: false, hidden: false }))
   );
 
-  // 바위 배치 — 1~5행 각각 1개, 열은 랜덤
   const rockPool = shuffleArray([...ROCK_VALUES_POOL]);
   shuffleArray([1, 2, 3, 4, 5]).forEach((r, i) => {
     const c = Math.floor(Math.random() * COLS);
@@ -502,7 +455,6 @@ function init() {
   updateQueueUI();
   renderBoard();
   highlightCol();
-  if (window.loadRanking) window.loadRanking();
 }
 
 function shuffleArray(arr) {
@@ -578,15 +530,12 @@ function renderBoard(mergeSet, revealSet) {
         el.style.border = '3px solid #444';
         el.textContent = '🪨';
         el.style.fontSize = '1.4rem';
-     
-            } else if (d.isRock && !d.hidden) {
-  el.style.background = '#4a4a4a';  // 어두운 돌 색
-  el.style.color = '#f0c040';       // 노란 숫자
-  el.style.border = '3px solid #888';
-  el.textContent = d.value;
-  el.style.fontSize = fontSize(d.value);
-
-
+      } else if (d.isRock && !d.hidden) {
+        el.style.background = '#4a4a4a';
+        el.style.color = '#f0c040';
+        el.style.border = '3px solid #888';
+        el.textContent = d.value;
+        el.style.fontSize = fontSize(d.value);
       } else if (d.value > 0) {
         const col = getColor(d.value);
         el.style.background = col.bg;
@@ -789,12 +738,10 @@ async function checkGameOver() {
 
   const myUid = window.getOrCreateUserId();
 
-  // 자동 저장
-  await window.saveScore(score, myUid, true);
+  await window.saveScore(score, myUid);
 
   document.getElementById('final-score').textContent = score.toLocaleString();
-  document.getElementById('nickname-input').value = myUid;
-  document.getElementById('submit-btn').disabled = false;
+  document.getElementById('my-id-badge').textContent = `ID: ${myUid}`;
   document.getElementById('my-rank-text').textContent = '';
 
   const myRank = await window.getMyRank(score);
@@ -808,39 +755,12 @@ async function checkGameOver() {
     : rankings.map((r, i) => `
         <div class="ranking-row ${r.nickname === myUid ? 'me' : ''}">
           <span class="rank-num">${i + 1}</span>
-          <span class="rank-name">${r.isAuto ? '⭐ ' : ''}${r.nickname}</span>
+          <span class="rank-name">${r.nickname}</span>
           <span class="rank-score">${r.score.toLocaleString()}</span>
         </div>
       `).join('');
 
   document.getElementById('overlay').classList.add('show');
-}
-
-async function submitScore() {
-  const input = document.getElementById('nickname-input');
-  const btn = document.getElementById('submit-btn');
-  const nickname = input.value.trim() || window.getOrCreateUserId();
-
-  input.disabled = true;
-  btn.disabled = true;
-  btn.textContent = '등록됨 ✓';
-
-  // 닉네임 변경 저장은 백그라운드로
-  window.saveScore(score, nickname, false).then(async () => {
-    const myRank = await window.getMyRank(score);
-    if (myRank) {
-      document.getElementById('my-rank-text').textContent = `🏆 전체 ${myRank}위`;
-    }
-    const rankings = await window.getRankings();
-    document.getElementById('overlay-ranking').innerHTML = rankings.map((r, i) => `
-      <div class="ranking-row ${r.nickname === nickname ? 'me' : ''}">
-        <span class="rank-num">${i + 1}</span>
-        <span class="rank-name">${r.isAuto ? '⭐ ' : ''}${r.nickname}</span>
-        <span class="rank-score">${r.score.toLocaleString()}</span>
-      </div>
-    `).join('');
-    if (window.loadRanking) window.loadRanking(nickname);
-  });
 }
 
 document.addEventListener('keydown', e => {
