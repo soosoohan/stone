@@ -1,6 +1,6 @@
 <!-- Google tag (gtag.js) -->
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-4YZHC1G9FN"></script><script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4YZHC1G9FN"></script>
+<script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
@@ -12,10 +12,7 @@
 
   const originalGtag = gtag;
   function gtag() {
-    if (isLocal) {
-      return;
-    }
+    if (isLocal) return;
     originalGtag.apply(this, arguments);
   }
-</script> 
-이건 넘틀에 있던거
+</script>
