@@ -392,16 +392,18 @@
   };
 
   window.getMyRank = async function(score) {
-  try {
-    const q = query(
-      collection(db, "scores"),
-      where("mode", "==", "numstone_battle"),
-      where("score", ">", score)   // ✅ 내 점수 초과한 것만
-    );
-    const snapshot = await getDocs(q);
-    return snapshot.size + 1;      // 나보다 높은 사람 수 + 1
-  } catch (e) { return null; }
-};
+    try {
+      const q = query(
+        collection(db, "scores"),
+        where("mode", "==", "numstone_battle"),
+        orderBy("score", "desc")
+      );
+      const snapshot = await getDocs(q);
+      const scores = snapshot.docs.map(doc => doc.data());
+      const rank = scores.findIndex(s => s.score <= score) + 1;
+      return rank || scores.length + 1;
+    } catch (e) { return null; }
+  };
 
 </script>
 
