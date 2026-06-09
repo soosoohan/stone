@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -214,15 +215,15 @@
     background: #2a2a4a;
     margin-bottom: 4px;
   }
-  .ranking-row.me { background: #3a3a1a; color: #f0c040; }
   .ranking-row .rank-num { width: 24px; color: #888; }
   .ranking-row .rank-name { flex: 1; }
   .ranking-row .rank-score { font-weight: bold; }
 
   #live-ranking {
-    margin-top: 20px;
+    margin-top: 14px;
     width: 100%;
     max-width: 340px;
+    display: none;
   }
 
   #overlay {
@@ -242,13 +243,6 @@
   #overlay h2 { font-size: 2.2rem; color: #f0c040; }
   #overlay p  { font-size: 1.1rem; color: #ccc; }
 
-  .my-rank-badge {
-    font-size: 1rem;
-    color: #a8e063;
-    font-weight: bold;
-  }
-
-  /* 내 ID 표시 배지 */
   #my-id-badge {
     font-size: 0.85rem;
     color: #888;
@@ -256,11 +250,6 @@
     padding: 6px 14px;
     border-radius: 8px;
     letter-spacing: 2px;
-  }
-
-  #overlay-ranking {
-    width: 100%;
-    max-width: 300px;
   }
 
   #restart-btn {
@@ -273,12 +262,13 @@
     font-weight: bold;
     cursor: pointer;
   }
-footer {
-text-align: center;
-color: #d1cbcb;
-font-size: 0.8rem;
-margin-top: 30px;
-}
+
+  footer {
+    text-align: center;
+    color: #d1cbcb;
+    font-size: 0.8rem;
+    margin-top: 30px;
+  }
 
   @keyframes merge-pop {
     0%   { transform: scale(1); }
@@ -326,23 +316,26 @@ margin-top: 30px;
   모바일: 열 버튼 탭 후 낙하 버튼
 </div>
 
-<!-- 게임오버 -->
+<button id="ranking-btn" style="margin-top:14px; padding:10px 28px; border-radius:10px; border:none; background:#2a2a4a; color:#f0c040; font-size:0.95rem; cursor:pointer;">🏆 순위 보기</button>
+<div id="live-ranking"></div>
+
 <div id="overlay">
   <h2>🪨 게임 오버</h2>
   <p>최종 점수: <strong id="final-score"></strong></p>
-  <p class="my-rank-badge" id="my-rank-text"></p>
   <div id="my-id-badge"></div>
-  <div id="overlay-ranking"></div>
-  <button id="restart-btn">다시 도전</button>
+  <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center;">
+    <button id="save-score-btn" style="padding:12px 28px; border-radius:10px; border:none; background:#a8e063; color:#1a1a2e; font-size:1rem; font-weight:bold; cursor:pointer;">💾 점수 저장</button>
+    <button id="restart-btn">다시 도전</button>
+  </div>
 </div>
+
 <footer>
   <p>© 2026 Han Soosoo. All rights reserved.</p>
 </footer>
 
-<!-- Firebase -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, query, where, orderBy, limit, getDocs }
+  import { getFirestore, collection, addDoc, query, where, orderBy, limit, getDocs, getCountFromServer }
     from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
   const firebaseConfig = {
@@ -358,15 +351,13 @@ margin-top: 30px;
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  // 자음 + 숫자 조합 — 의미있는 단어 생성 불가
   function getOrCreateUserId() {
     let uid = localStorage.getItem('numtle_uid');
     if (!uid) {
-      const C = 'BCDFGHJKLMNPQRSTVWXZ'; // 모음 없음
+      const C = 'BCDFGHJKLMNPQRSTVWXZ';
       const D = '0123456789';
       const rc = () => C[Math.floor(Math.random() * C.length)];
       const rd = () => D[Math.floor(Math.random() * D.length)];
-      // 자음2 + 숫자2 + 자음2 패턴 → 6자리
       uid = rc() + rc() + rd() + rd() + rc() + rc();
       localStorage.setItem('numtle_uid', uid);
     }
@@ -387,6 +378,18 @@ margin-top: 30px;
     } catch (e) {}
   };
 
+  window.getMyRank = async function(score) {
+    try {
+      const q = query(
+        collection(db, "scores"),
+        where("mode", "==", "numstone_battle"),
+        where("score", ">", score)
+      );
+      const snapshot = await getCountFromServer(q);
+      return snapshot.data().count + 1;
+    } catch (e) { return null; }
+  };
+
   window.getRankings = async function() {
     try {
       const q = query(
@@ -399,21 +402,6 @@ margin-top: 30px;
       return snapshot.docs.map(doc => doc.data());
     } catch (e) { return []; }
   };
-
-  window.getMyRank = async function(score) {
-    try {
-      const q = query(
-        collection(db, "scores"),
-        where("mode", "==", "numstone_battle"),
-        orderBy("score", "desc")
-      );
-      const snapshot = await getDocs(q);
-      const scores = snapshot.docs.map(doc => doc.data());
-      const rank = scores.findIndex(s => s.score <= score) + 1;
-      return rank || scores.length + 1;
-    } catch (e) { return null; }
-  };
-
 </script>
 
 <script>
@@ -458,6 +446,8 @@ function init() {
   selectedCol = 0;
   document.getElementById('score').textContent = '0';
   document.getElementById('overlay').classList.remove('show');
+  document.getElementById('save-score-btn').disabled = false;
+  document.getElementById('save-score-btn').textContent = '💾 점수 저장';
 
   board = Array.from({ length: ROWS }, () =>
     Array.from({ length: COLS }, () => ({ value: 0, isRock: false, hidden: false }))
@@ -762,31 +752,46 @@ async function checkGameOver() {
   gameOver = true;
 
   const myUid = window.getOrCreateUserId();
+  document.getElementById('final-score').textContent = score.toLocaleString();
+  document.getElementById('my-id-badge').textContent = `ID: ${myUid}`;
+  document.getElementById('save-score-btn').disabled = false;
+  document.getElementById('save-score-btn').textContent = '💾 점수 저장';
+  document.getElementById('overlay').classList.add('show');
+}
+
+document.getElementById('save-score-btn').addEventListener('click', async function() {
+  const myUid = window.getOrCreateUserId();
+  this.disabled = true;
+  this.textContent = '저장 중...';
 
   await window.saveScore(score, myUid);
 
-  document.getElementById('final-score').textContent = score.toLocaleString();
-  document.getElementById('my-id-badge').textContent = `ID: ${myUid}`;
-  document.getElementById('my-rank-text').textContent = '';
-
   const myRank = await window.getMyRank(score);
-  if (myRank) {
-    document.getElementById('my-rank-text').textContent = `🏆 전체 ${myRank}위`;
-  }
+  this.textContent = myRank ? `✅ 저장 완료 · 🏆 ${myRank}위` : '✅ 저장 완료';
+});
 
+document.getElementById('ranking-btn').addEventListener('click', async function() {
+  const panel = document.getElementById('live-ranking');
+  if (panel.style.display === 'block') {
+    panel.style.display = 'none';
+    this.textContent = '🏆 순위 보기';
+    return;
+  }
+  this.textContent = '불러오는 중...';
   const rankings = await window.getRankings();
-  document.getElementById('overlay-ranking').innerHTML = rankings.length === 0
+  panel.innerHTML = rankings.length === 0
     ? '<div style="text-align:center;color:#555;font-size:0.85rem;padding:8px">아직 기록이 없어요</div>'
-    : rankings.map((r, i) => `
-        <div class="ranking-row ${r.nickname === myUid ? 'me' : ''}">
+    : '<div class="ranking-title">🏆 Top 10</div>' +
+      rankings.map((r, i) => `
+        <div class="ranking-row">
           <span class="rank-num">${i + 1}</span>
           <span class="rank-name">${r.nickname}</span>
           <span class="rank-score">${r.score.toLocaleString()}</span>
         </div>
       `).join('');
-
-  document.getElementById('overlay').classList.add('show');
-}
+  panel.style.display = 'block';
+  this.textContent = '🏆 순위 닫기';
+});
 
 document.addEventListener('keydown', e => {
   if (gameOver) return;
