@@ -29,21 +29,15 @@ Choose a column, drop your card, and merge your way to bigger numbers — no tim
 - 맨 윗줄이 가득 차면 게임이 종료됩니다. 중간에 빈 자리가 있어도 맨 윗줄 기준으로 판단합니다.  
   The game ends when the top row is full — even if space remains below. Watch the top.
 
-
-## 🌟 Soosooland - Puzzle Game Hub by Han Soosoo
-
-> "Learning through fun, and fun through learning."
-
-Explore more brain games and puzzles in **[Soosooland](https://soosooland.com)**    
-— a digital playground designed to improve memory, logic, and creativity while having fun!
-
 ---
 ## ⚠️ **Copyright Protection   
 
-🛡️ **이 게임은 저작권 등록이 진행 중입니다.**                                                        
-무단 복제, 무단 이용, 상업적 사용은 법적 책임을 초래할 수 있습니다.                                         
-🛡️ **This game is currently undergoing copyright registration.**                             
-Unauthorized reproduction, use, or commercial distribution may result in legal consequences.
+이 저작물은 한국저작권위원회에 등록되어 법적 보호를 받습니다.    
+This project is registered with the Korea Copyright Commission.
+
+| 게임 | 등록번호 | 등록일 |
+|------|----------|--------|
+| 넘스톤(Numstone)| C-2026-027940 | 2026.06.09 |
 
 ---
 ### ✨ 자유롭게 하실 수 있는 것
@@ -84,11 +78,10 @@ Unauthorized reproduction, use, or commercial distribution may result in legal c
 💌 I'm open to collaborations and partnerships!  
 [Contact me](https://soosooland.com/Contact.html)
 
-—-
-
-## Play Numstone :https://soosooland.com/stone/   
-
 ---
+
+## 넘스톤 주소 : https://soosooland.com/stone/
+
 ## 🌟 Soosooland - Puzzle Game Hub by Han Soosoo
 
  "Learning through fun, and fun through learning."
@@ -97,11 +90,11 @@ Explore more brain games and puzzles in **[Soosooland](https://soosooland.com/)*
 — a digital playground designed to improve memory, logic, and creativity while having fun!
 
 ---
+
 ### 👤 만든 사람 | Credits
 
 - 기획·개발 : 한수수  
 ⓒ 2025 한수수. 이 게임의 모든 권리는 제작자인 한수수에게 있습니다.
-
 - Created and Developed by Soosoo Han  
 ⓒ 2025 Soosoo Han. All rights reserved.
 
