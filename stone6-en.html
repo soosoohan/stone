@@ -1,0 +1,823 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script>
+  if (window.top !== window.self) {
+    window.top.location = "https://soosooland.com";
+  }
+  console.log("© 2025-2026 Soosooland by 한수수. All rights reserved.");
+  console.log("https://soosooland.com");
+  console.log("Numstone | Born: 2026-05-24");
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4YZHC1G9FN"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-4YZHC1G9FN');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>넘스톤 배틀 | Soosooland</title>
+<meta name="description" content="넘스톤 배틀 6×6 — 바위를 깨고 전세계와 점수 대결!">
+<link rel="canonical" href="https://soosooland.com/stone/stone6.html">
+<link rel="alternate" hreflang="ko" href="https://soosooland.com/stone/stone6-ko.html">
+<link rel="alternate" hreflang="en" href="https://soosooland.com/stone/stone6-en.html">
+<meta property="og:title" content="넘스톤 배틀 | 수수랜드">
+<meta property="og:description" content="바위를 깨워라 — 전세계 랭킹 도전">
+<meta property="og:image" content="https://soosooland.com/images/stone.png">
+<link rel="stylesheet" href="https://soosooland.com/css/protection.css">
+<script src="https://soosooland.com/js/protection.js"></script>
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #1a1a2e;
+    color: #eee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  .back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 8px 10px;
+    font-size: 2em;
+    font-weight: bold;
+    background-color: #1a1a2e;
+    color: #CFF9FF;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 100;
+  }
+  .back-button:hover { background-color: #1baf8f; color: #fff; }
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 6px;
+    letter-spacing: 2px;
+    color: #f0c040;
+  }
+
+  .version-badge {
+    background: #e74c3c;
+    color: #fff;
+    font-size: 0.75rem;
+    padding: 2px 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+
+  #score-area {
+    margin-bottom: 14px;
+    font-size: 1.1rem;
+    color: #ccc;
+  }
+  #score-area span {
+    color: #f0c040;
+    font-weight: bold;
+    font-size: 1.3rem;
+  }
+
+  #queue-area {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+    align-items: flex-end;
+  }
+
+  .queue-label {
+    font-size: 0.75rem;
+    color: #888;
+    margin-bottom: 4px;
+    text-align: center;
+  }
+
+  .queue-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .queue-card {
+    width: 52px;
+    height: 52px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: bold;
+    background: #444;
+    color: #888;
+    transition: all 0.3s;
+  }
+  .queue-card.active {
+    transform: scale(1.1);
+    box-shadow: 0 0 12px rgba(240,192,64,0.6);
+  }
+
+  #col-buttons {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 4px;
+  }
+
+  .col-btn {
+    width: 54px;
+    height: 40px;
+    border-radius: 8px;
+    border: none;
+    background: #2a2a4a;
+    color: #444;
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    line-height: 1;
+    padding: 0;
+  }
+  .col-btn.selected {
+    background: #f0c040;
+    color: #1a1a2e;
+    font-size: 1.8rem;
+    transform: translateY(4px);
+    box-shadow: 0 4px 12px rgba(240,192,64,0.5);
+  }
+  .col-btn:hover:not(.selected) { background: #3a3a6a; color: #888; }
+
+  #grid {
+    display: grid;
+    grid-template-columns: repeat(6, 54px);
+    grid-template-rows: repeat(6, 54px);
+    gap: 4px;
+    background: #111;
+    padding: 6px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  }
+
+  .cell {
+    width: 54px;
+    height: 54px;
+    border-radius: 8px;
+    background: #222;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+    transition: background 0.15s;
+  }
+
+  #drop-btn {
+    margin-top: 14px;
+    padding: 12px 40px;
+    border-radius: 10px;
+    border: none;
+    background: #f0c040;
+    color: #1a1a2e;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: none;
+  }
+
+  #pc-hint {
+    margin-top: 12px;
+    font-size: 0.8rem;
+    color: #666;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  .ranking-title {
+    font-size: 0.9rem;
+    color: #f0c040;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+
+  .ranking-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    color: #ccc;
+    background: #2a2a4a;
+    margin-bottom: 4px;
+  }
+  .ranking-row .rank-num { width: 24px; color: #888; }
+  .ranking-row .rank-name { flex: 1; }
+  .ranking-row .rank-score { font-weight: bold; }
+
+  #live-ranking {
+    margin-top: 14px;
+    width: 100%;
+    max-width: 340px;
+    display: none;
+  }
+
+  #overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 14px;
+    z-index: 100;
+    padding: 20px;
+    overflow-y: auto;
+  }
+  #overlay.show { display: flex; }
+  #overlay h2 { font-size: 2.2rem; color: #f0c040; }
+  #overlay p  { font-size: 1.1rem; color: #ccc; }
+
+  #my-id-badge {
+    font-size: 0.85rem;
+    color: #888;
+    background: #2a2a4a;
+    padding: 6px 14px;
+    border-radius: 8px;
+    letter-spacing: 2px;
+  }
+
+  #restart-btn {
+    padding: 12px 36px;
+    border-radius: 10px;
+    border: none;
+    background: #f0c040;
+    color: #1a1a2e;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  footer {
+    text-align: center;
+    color: #d1cbcb;
+    font-size: 0.8rem;
+    margin-top: 30px;
+  }
+
+  @keyframes merge-pop {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.3); }
+    100% { transform: scale(1); }
+  }
+  .merge-anim { animation: merge-pop 0.2s ease; }
+
+  @keyframes reveal-anim {
+    0%   { transform: scale(1.3); filter: brightness(2); }
+    100% { transform: scale(1);   filter: brightness(1); }
+  }
+  .reveal-anim { animation: reveal-anim 0.35s ease; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+
+<body onload="init()">
+
+<button class="back-button" onclick="location.href='index.html'">←</button>
+<h1>Numstone Battle</h1>
+<div id="score-area">점수: <span id="score">0</span></div>
+
+<div id="queue-area">
+  <div class="queue-slot">
+    <div class="queue-label">다음</div>
+    <div class="queue-card active" id="q0"></div>
+  </div>
+  <div class="queue-slot">
+    <div class="queue-label"></div>
+    <div class="queue-card" id="q1"></div>
+  </div>
+  <div class="queue-slot">
+    <div class="queue-label"></div>
+    <div class="queue-card" id="q2"></div>
+  </div>
+</div>
+
+<div id="col-buttons"></div>
+<div id="grid"></div>
+<button id="drop-btn">▼ 낙하</button>
+
+<div id="pc-hint">
+  ← → 방향키로 열 선택 &nbsp;|&nbsp; Space / Enter로 낙하<br>
+  모바일: 열 버튼 탭 후 낙하 버튼
+</div>
+
+<button id="ranking-btn" style="margin-top:14px; padding:10px 28px; border-radius:10px; border:none; background:#2a2a4a; color:#f0c040; font-size:0.95rem; cursor:pointer;">🏆 순위 보기</button>
+<div id="live-ranking"></div>
+
+<div id="overlay">
+  <h2>🪨 게임 오버</h2>
+  <p>최종 점수: <strong id="final-score"></strong></p>
+  <div id="my-id-badge"></div>
+  <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center;">
+    <button id="save-score-btn" style="padding:12px 28px; border-radius:10px; border:none; background:#a8e063; color:#1a1a2e; font-size:1rem; font-weight:bold; cursor:pointer;">💾 점수 저장</button>
+    <button id="restart-btn">다시 도전</button>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 Han Soosoo. All rights reserved.</p>
+</footer>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, query, where, orderBy, limit, getDocs, getCountFromServer }
+    from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDpe1rRJbCO8t_yXDAzArhLS2fJ-z8TRJ8",
+    authDomain: "numstone-fcc75.firebaseapp.com",
+    projectId: "numstone-fcc75",
+    storageBucket: "numstone-fcc75.firebasestorage.app",
+    messagingSenderId: "162509373871",
+    appId: "1:162509373871:web:7a613044da3a1f91d76f5a",
+    measurementId: "G-B37HSD6GW9"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  function getOrCreateUserId() {
+    let uid = localStorage.getItem('numtle_uid');
+    if (!uid) {
+      const C = 'BCDFGHJKLMNPQRSTVWXZ';
+      const D = '0123456789';
+      const rc = () => C[Math.floor(Math.random() * C.length)];
+      const rd = () => D[Math.floor(Math.random() * D.length)];
+      uid = rc() + rc() + rd() + rd() + rc() + rc();
+      localStorage.setItem('numtle_uid', uid);
+    }
+    return uid;
+  }
+
+  window.getOrCreateUserId = getOrCreateUserId;
+
+  window.saveScore = async function(score, nickname) {
+    try {
+      await addDoc(collection(db, "scores"), {
+        nickname,
+        score,
+        isAuto: true,
+        mode: "numstone_battle",
+        timestamp: new Date()
+      });
+    } catch (e) {}
+  };
+
+  window.getMyRank = async function(score) {
+    try {
+      const q = query(
+        collection(db, "scores"),
+        where("mode", "==", "numstone_battle"),
+        where("score", ">", score)
+      );
+      const snapshot = await getCountFromServer(q);
+      return snapshot.data().count + 1;
+    } catch (e) { return null; }
+  };
+
+  window.getRankings = async function() {
+    try {
+      const q = query(
+        collection(db, "scores"),
+        where("mode", "==", "numstone_battle"),
+        orderBy("score", "desc"),
+        limit(10)
+      );
+      const snapshot = await getDocs(q);
+      return snapshot.docs.map(doc => doc.data());
+    } catch (e) { return []; }
+  };
+</script>
+
+<script>
+const ROWS = 6, COLS = 6;
+const ROCK_VALUES_POOL = [128, 128, 256, 256, 512];
+const NUM_ROCKS = 5;
+const QUEUE_SIZE = 3;
+const CARDS = [2, 4, 8, 16];
+const CARD_WEIGHTS = [50, 35, 15, 10];
+
+const COLOR_MAP = {
+2:       { bg: '#B8E986', fg: '#2F4F1F' },
+4:       { bg: '#7ED957', fg: '#FFFFFF' },
+8:       { bg: '#4DD0E1', fg: '#FFFFFF' },
+16:      { bg: '#42A5F5', fg: '#FFFFFF' },
+32:      { bg: '#7E57C2', fg: '#FFFFFF' },
+64:      { bg: '#EC407A', fg: '#FFFFFF' },
+128:     { bg: '#FFA726', fg: '#FFFFFF' },
+256:     { bg: '#FF7043', fg: '#FFFFFF' },
+512:     { bg: '#E53935', fg: '#FFFFFF' },
+1024:    { bg: '#B0BEC5', fg: '#263238' },
+2048:    { bg: '#FFF8E1', fg: '#F57C00' },
+4096:    { bg: '#FFE082', fg: '#8D6E00' },
+8192:    { bg: '#FFD54F', fg: '#6D4C00' },
+16384:   { bg: '#F8BBD0', fg: '#880E4F' },
+32768:   { bg: '#CE93D8', fg: '#4A148C' },
+65536:   { bg: '#90CAF9', fg: '#0D47A1' },
+131072:  { bg: '#80CBC4', fg: '#004D40' },
+262144:  { bg: '#C5E1A5', fg: '#33691E' },
+524288:  { bg: '#FFF176', fg: '#5D4037' },
+};
+
+function getColor(val) {
+  return COLOR_MAP[val] || { bg: '#f0c040', fg: '#1a1a2e' };
+}
+
+let board, queue, selectedCol, score, gameOver, isMobile;
+
+function init() {
+  score = 0;
+  gameOver = false;
+  selectedCol = 0;
+  document.getElementById('score').textContent = '0';
+  document.getElementById('overlay').classList.remove('show');
+  document.getElementById('save-score-btn').disabled = false;
+  document.getElementById('save-score-btn').textContent = '💾 점수 저장';
+
+  board = Array.from({ length: ROWS }, () =>
+    Array.from({ length: COLS }, () => ({ value: 0, isRock: false, hidden: false }))
+  );
+
+  const rockPool = shuffleArray([...ROCK_VALUES_POOL]);
+  shuffleArray([1, 2, 3, 4, 5]).forEach((r, i) => {
+    const c = Math.floor(Math.random() * COLS);
+    board[r][c] = { value: rockPool[i], isRock: true, hidden: true };
+  });
+
+  queue = Array.from({ length: QUEUE_SIZE + 10 }, randomCard);
+
+  isMobile = window.innerWidth <= 680 || 'ontouchstart' in window;
+  document.getElementById('drop-btn').style.display = isMobile ? 'block' : 'none';
+  document.getElementById('pc-hint').style.display  = isMobile ? 'none'  : 'block';
+
+  buildGrid();
+  buildColButtons();
+  updateQueueUI();
+  renderBoard();
+  highlightCol();
+}
+
+function shuffleArray(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function randomCard() {
+  const total = CARD_WEIGHTS.reduce((a, b) => a + b, 0);
+  let r = Math.random() * total;
+  for (let i = 0; i < CARDS.length; i++) {
+    r -= CARD_WEIGHTS[i];
+    if (r <= 0) return CARDS[i];
+  }
+  return CARDS[0];
+}
+
+function buildGrid() {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      const cell = document.createElement('div');
+      cell.className = 'cell';
+      cell.id = `cell-${r}-${c}`;
+      grid.appendChild(cell);
+    }
+  }
+}
+
+function buildColButtons() {
+  const container = document.getElementById('col-buttons');
+  container.innerHTML = '';
+  for (let c = 0; c < COLS; c++) {
+    const btn = document.createElement('button');
+    btn.className = 'col-btn' + (c === selectedCol ? ' selected' : '');
+    btn.textContent = '▼';
+    btn.addEventListener('click', () => {
+      selectedCol = c;
+      highlightCol();
+      if (isMobile) return;
+      dropCard();
+    });
+    container.appendChild(btn);
+  }
+}
+
+function highlightCol() {
+  document.querySelectorAll('.col-btn').forEach((btn, i) => {
+    btn.classList.toggle('selected', i === selectedCol);
+  });
+}
+
+function renderBoard(mergeSet, revealSet) {
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      const el = document.getElementById(`cell-${r}-${c}`);
+      const d = board[r][c];
+
+      el.classList.remove('merge-anim', 'reveal-anim');
+      void el.offsetWidth;
+
+      if (mergeSet && mergeSet.has(`${r}-${c}`)) el.classList.add('merge-anim');
+      if (revealSet && revealSet.has(`${r}-${c}`)) el.classList.add('reveal-anim');
+
+      if (d.isRock && d.hidden) {
+        el.style.background = '#2d2d2d';
+        el.style.color = '#555';
+        el.style.border = '3px solid #444';
+        el.textContent = '🪨';
+        el.style.fontSize = '1.4rem';
+      } else if (d.isRock && !d.hidden) {
+        el.style.background = '#4a4a4a';
+        el.style.color = '#f0c040';
+        el.style.border = '3px solid #888';
+        el.textContent = d.value;
+        el.style.fontSize = fontSize(d.value);
+      } else if (d.value > 0) {
+        const col = getColor(d.value);
+        el.style.background = col.bg;
+        el.style.color = col.fg;
+        el.style.border = 'none';
+        el.textContent = d.value;
+        el.style.fontSize = fontSize(d.value);
+      } else {
+        el.style.background = '#222';
+        el.style.color = '#555';
+        el.style.border = 'none';
+        el.textContent = '';
+        el.style.fontSize = '1.1rem';
+      }
+    }
+  }
+}
+
+function fontSize(v) {
+  if (v >= 1000) return '0.8rem';
+  if (v >= 100)  return '0.95rem';
+  return '1.1rem';
+}
+
+function updateQueueUI() {
+  for (let i = 0; i < QUEUE_SIZE; i++) {
+    const el = document.getElementById(`q${i}`);
+    if (!el) continue;
+    const val = queue[i];
+    el.textContent = val ?? '';
+    el.style.background = i === 0 ? '#555' : '#333';
+    el.style.color      = i === 0 ? '#eee' : '#777';
+    el.className = 'queue-card' + (i === 0 ? ' active' : '');
+  }
+}
+
+function dropCard() {
+  if (gameOver) return;
+
+  const col = selectedCol;
+  const cardVal = queue[0];
+
+  let targetRow = -1;
+  for (let r = 0; r < ROWS; r++) {
+    const cell = board[r][col];
+    if (cell.isRock || cell.value > 0) {
+      if (r > 0 && board[r-1][col].value === 0 && !board[r-1][col].isRock) {
+        targetRow = r - 1;
+      }
+      break;
+    }
+    if (r === ROWS - 1) targetRow = r;
+  }
+
+  if (targetRow === -1) {
+    checkGameOver();
+    return;
+  }
+
+  board[targetRow][col] = { value: cardVal, isRock: false, hidden: false };
+  queue.shift();
+  queue.push(randomCard());
+  updateQueueUI();
+
+  const mergeSet  = new Set();
+  const revealSet = new Set();
+  runMergeLoop(targetRow, col, mergeSet, revealSet);
+
+  renderBoard(mergeSet, revealSet);
+  checkGameOver();
+}
+
+function runMergeLoop(newR, newC, mergeSet, revealSet) {
+  let q = [{ r: newR, c: newC }];
+
+  while (q.length > 0) {
+    const next = [];
+    for (const { r, c } of q) {
+      if (board[r][c].value === 0) continue;
+      const val = board[r][c].value;
+      const dirs = [[-1,0],[1,0],[0,-1],[0,1]];
+
+      for (const [dr, dc] of dirs) {
+        const nr = r + dr, nc = c + dc;
+        if (nr < 0 || nr >= ROWS || nc < 0 || nc >= COLS) continue;
+        const nb = board[nr][nc];
+
+        if (nb.isRock) {
+          if (nb.hidden && nb.value === val * 2) {
+            board[nr][nc].hidden = false;
+            revealSet.add(`${nr}-${nc}`);
+          } else if (!nb.hidden && nb.value === val) {
+            score += val * 2;
+            document.getElementById('score').textContent = score;
+            board[nr][nc] = { value: val * 2, isRock: false, hidden: false };
+            board[r][c]   = { value: 0, isRock: false, hidden: false };
+            mergeSet.add(`${nr}-${nc}`);
+            next.push({ r: nr, c: nc });
+          }
+          continue;
+        }
+
+        if (nb.value === val) {
+          const newVal = val * 2;
+          score += newVal;
+          document.getElementById('score').textContent = score;
+          board[nr][nc] = { value: newVal, isRock: false, hidden: false };
+          board[r][c]   = { value: 0, isRock: false, hidden: false };
+          mergeSet.add(`${nr}-${nc}`);
+          next.push({ r: nr, c: nc });
+          if (newVal === 256) fireConfetti();
+          break;
+        }
+      }
+    }
+
+    applyGravityAll();
+
+    if (next.length === 0) {
+      const seen = new Set();
+      for (let r = 0; r < ROWS; r++) {
+        for (let c = 0; c < COLS; c++) {
+          const cur = board[r][c];
+          if (cur.value === 0 || cur.isRock) continue;
+
+          const dirs = [[-1,0],[1,0],[0,-1],[0,1]];
+          for (const [dr, dc] of dirs) {
+            const nr = r + dr, nc = c + dc;
+            if (nr < 0 || nr >= ROWS || nc < 0 || nc >= COLS) continue;
+            const nb = board[nr][nc];
+
+            if (!nb.isRock && nb.value === cur.value) {
+              const key = `${r}-${c}`;
+              if (!seen.has(key)) {
+                next.push({ r, c });
+                seen.add(key);
+                seen.add(`${nr}-${nc}`);
+              }
+              break;
+            }
+
+            if (nb.isRock && !nb.hidden && nb.value === cur.value) {
+              const key = `${r}-${c}`;
+              if (!seen.has(key)) {
+                next.push({ r, c });
+                seen.add(key);
+              }
+              break;
+            }
+          }
+        }
+      }
+    }
+
+    q = next;
+  }
+}
+
+function applyGravityAll() {
+  for (let c = 0; c < COLS; c++) {
+    getColumnSegments(c).forEach(seg => compactDown(c, seg));
+  }
+}
+
+function getColumnSegments(c) {
+  const segments = [];
+  let start = 0;
+  for (let r = 0; r < ROWS; r++) {
+    if (board[r][c].isRock) {
+      if (r > start) segments.push({ from: start, to: r - 1 });
+      start = r + 1;
+    }
+  }
+  if (start < ROWS) segments.push({ from: start, to: ROWS - 1 });
+  return segments;
+}
+
+function compactDown(c, { from, to }) {
+  let writeRow = to;
+  for (let r = to; r >= from; r--) {
+    if (board[r][c].value > 0 && !board[r][c].isRock) {
+      if (r !== writeRow) {
+        board[writeRow][c] = { ...board[r][c] };
+        board[r][c] = { value: 0, isRock: false, hidden: false };
+      }
+      writeRow--;
+    }
+  }
+  for (let r = writeRow; r >= from; r--) {
+    board[r][c] = { value: 0, isRock: false, hidden: false };
+  }
+}
+
+async function checkGameOver() {
+  for (let c = 0; c < COLS; c++) {
+    const cell = board[0][c];
+    if (!cell.isRock && cell.value === 0) return;
+  }
+  gameOver = true;
+
+  const myUid = window.getOrCreateUserId();
+  document.getElementById('final-score').textContent = score.toLocaleString();
+  document.getElementById('my-id-badge').textContent = `ID: ${myUid}`;
+  document.getElementById('save-score-btn').disabled = false;
+  document.getElementById('save-score-btn').textContent = '💾 점수 저장';
+  document.getElementById('overlay').classList.add('show');
+}
+
+document.getElementById('save-score-btn').addEventListener('click', async function() {
+  const myUid = window.getOrCreateUserId();
+  this.disabled = true;
+  this.textContent = '저장 중...';
+
+  await window.saveScore(score, myUid);
+
+  const myRank = await window.getMyRank(score);
+  this.textContent = myRank ? `✅ 저장 완료 · 🏆 ${myRank}위` : '✅ 저장 완료';
+});
+
+document.getElementById('ranking-btn').addEventListener('click', async function() {
+  const panel = document.getElementById('live-ranking');
+  if (panel.style.display === 'block') {
+    panel.style.display = 'none';
+    this.textContent = '🏆 순위 보기';
+    return;
+  }
+  this.textContent = '불러오는 중...';
+  const rankings = await window.getRankings();
+  panel.innerHTML = rankings.length === 0
+    ? '<div style="text-align:center;color:#555;font-size:0.85rem;padding:8px">아직 기록이 없어요</div>'
+    : '<div class="ranking-title">🏆 Top 10</div>' +
+      rankings.map((r, i) => `
+        <div class="ranking-row">
+          <span class="rank-num">${i + 1}</span>
+          <span class="rank-name">${r.nickname}</span>
+          <span class="rank-score">${r.score.toLocaleString()}</span>
+        </div>
+      `).join('');
+  panel.style.display = 'block';
+  this.textContent = '🏆 순위 닫기';
+});
+
+document.addEventListener('keydown', e => {
+  if (gameOver) return;
+  if (e.key === 'ArrowLeft')  { e.preventDefault(); selectedCol = Math.max(0, selectedCol - 1); highlightCol(); }
+  if (e.key === 'ArrowRight') { e.preventDefault(); selectedCol = Math.min(COLS - 1, selectedCol + 1); highlightCol(); }
+  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); dropCard(); }
+});
+
+document.getElementById('drop-btn').addEventListener('click', dropCard);
+document.getElementById('restart-btn').addEventListener('click', init);
+
+function fireConfetti() {
+  const canvas = document.createElement('canvas');
+  canvas.style.cssText = `
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 99999; pointer-events: none;
+  `;
+  document.body.appendChild(canvas);
+  const myConfetti = confetti.create(canvas, { resize: true });
+  myConfetti({ particleCount: 120, angle: 60,  spread: 70, origin: { x: 0, y: 0.7 } });
+  myConfetti({ particleCount: 120, angle: 120, spread: 70, origin: { x: 1, y: 0.7 } });
+  setTimeout(() => canvas.remove(), 4000);
+}
+</script>
+</body>
+</html>
