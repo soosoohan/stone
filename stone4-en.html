@@ -50,7 +50,7 @@
     position: absolute;
     top: 20px;
     left: 20px;
-    padding: 8px 10px;      /* 모바일 기본 */
+    padding: 8px 10px; 
     font-size: 2em;
     font-weight: bold;
     background-color: #1a1a2e;
@@ -333,21 +333,21 @@ margin-top: 30px;
 <!-- 시작 화면 -->
 <div id="start-screen">
  <button class="back-button"  onclick="location.href='index.html'">←</button>
-<h1>넘스톤 4X4</h1>
+<h1>Numstone 4X4</h1>
   <div class="difficulty-buttons">
     <button class="diff-btn easy" onclick="startGame('easy')">
       <span>🟢</span>
-      <span class="diff-label">쉬움</span>
+      <span class="diff-label">Easy</span>
       <span class="diff-cards">2, 4</span>
     </button>
     <button class="diff-btn normal" onclick="startGame('normal')">
       <span>🟡</span>
-      <span class="diff-label">보통</span>
+      <span class="diff-label">Medium</span>
       <span class="diff-cards">2, 4, 8</span>
     </button>
     <button class="diff-btn hard" onclick="startGame('hard')">
       <span>🔴</span>
-      <span class="diff-label">어려움</span>
+      <span class="diff-label">Hard</span>
       <span class="diff-cards">2, 4, 8, 16</span>
     </button>
   </div>
@@ -359,12 +359,12 @@ margin-top: 30px;
 <!-- 게임 화면 -->
 <button class="back-button"  onclick="location.href='index.html'">←</button>
 
-<h1>🪨 넘스톤</h1>
-<div id="score-area">점수: <span id="score">0</span></div>
+<h1>🪨 Numstone</h1>
+<div id="score-area">Score: <span id="score">0</span></div>
 
 <div id="queue-area">
   <div class="queue-slot">
-    <div class="queue-label">다음</div>
+    <div class="queue-label">next</div>
     <div class="queue-card active" id="q0"></div>
   </div>
   <div class="queue-slot">
@@ -379,11 +379,11 @@ margin-top: 30px;
 
 <div id="col-buttons"></div>
 <div id="grid"></div>
-<button id="drop-btn">▼ 낙하</button>
+<button id="drop-btn">▼ Drop</button>
 
 <div id="pc-hint">
-  ← → 방향키로 열 선택 &nbsp;|&nbsp; Enter로 낙하<br>
-  모바일: 열 버튼 탭 후 낙하 버튼
+ ← → Arrow keys to select column &nbsp;|&nbsp; Space / Enter to drop<br>
+ Mobile: tap column button then drop button
 </div>
 
 <div id="overlay">
