@@ -383,39 +383,36 @@ margin-top: 30px;
 <!-- 시작 화면 -->
 <div id="start-screen">
   <button class="back-button" onclick="location.href='index.html'">←</button>
-  <h1>넘스톤 5×5</h1>
-  <p class="subtitle">숫자 합체 퍼즐 5×5</p>
+  <h1>Numstone 5×5</h1>
+  <p class="subtitle">Number Merge Puzzlle 5×5</p>
 
-  <div class="section-label">난이도</div>
+  <div class="section-label">Mode</div>
   <div class="difficulty-buttons">
     <button class="diff-btn easy"   onclick="selectDiff('easy',   this)">
-      <span>🟢</span><span class="diff-label">쉬움</span><span class="diff-cards">2, 4</span>
+      <span>🟢</span><span class="diff-label">Easy</span><span class="diff-cards">2, 4</span>
     </button>
     <button class="diff-btn normal" onclick="selectDiff('normal', this)">
-      <span>🟡</span><span class="diff-label">보통</span><span class="diff-cards">2, 4, 8</span>
+      <span>🟡</span><span class="diff-label">Normal</span><span class="diff-cards">2, 4, 8</span>
     </button>
     <button class="diff-btn hard"   onclick="selectDiff('hard',   this)">
-      <span>🔴</span><span class="diff-label">어려움</span><span class="diff-cards">2, 4, 8, 16</span>
+      <span>🔴</span><span class="diff-label">Hard</span><span class="diff-cards">2, 4, 8, 16</span>
     </button>
   </div>
 
-  <div class="section-label">바위 개수</div>
+  <div class="section-label">rock</div>
   <div class="rock-buttons">
     <button class="rock-btn" onclick="selectRocks(1, this)">
       <span class="rock-emoji">🪨</span>
-      <span class="rock-count">1개</span>
     </button>
     <button class="rock-btn" onclick="selectRocks(2, this)">
       <span class="rock-emoji">🪨🪨</span>
-      <span class="rock-count">2개</span>
     </button>
     <button class="rock-btn selected" onclick="selectRocks(3, this)">
       <span class="rock-emoji">🪨🪨🪨</span>
-      <span class="rock-count">3개</span>
     </button>
   </div>
 
-  <button class="start-btn" onclick="startGame()">게임 시작</button>
+  <button class="start-btn" onclick="startGame()">Start Game</button>
   <footer>
   <p>© 2026 Han Soosoo. All rights reserved.</p>
 </footer>
@@ -425,13 +422,12 @@ margin-top: 30px;
 <!-- 게임 화면 -->
 <button class="back-button" onclick="location.href='index.html'">←</button>
 
-<h1>🪨 넘스톤</h1>
-<div class="version-badge">5×5 확장 모드</div>
-<div id="score-area">점수: <span id="score">0</span></div>
+<h1>Numstone</h1>
+<div id="score-area">Score: <span id="score">0</span></div>
 
 <div id="queue-area">
   <div class="queue-slot">
-    <div class="queue-label">다음</div>
+    <div class="queue-label">next</div>
     <div class="queue-card active" id="q0"></div>
   </div>
   <div class="queue-slot">
@@ -446,7 +442,7 @@ margin-top: 30px;
 
 <div id="col-buttons"></div>
 <div id="grid"></div>
-<button id="drop-btn">▼ 낙하</button>
+<button id="drop-btn">▼ Drop</button>
 
 <div id="pc-hint">
  ← → Arrow keys to select column &nbsp;|&nbsp; Space / Enter to drop<br>
@@ -454,8 +450,8 @@ margin-top: 30px;
 </div>
 
 <div id="overlay">
-  <h2>🪨 게임 오버</h2>
-  <p>최종 점수: <strong id="final-score"></strong></p>
+  <h2>🪨 Game Over</h2>
+  <p>Score: <strong id="final-score"></strong></p>
   <p class="diff-badge" id="diff-result"></p>
   <button id="restart-btn">Play Again</button>
   <button id="change-diff-btn">Change Difficulty</button>
