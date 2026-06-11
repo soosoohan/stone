@@ -403,15 +403,12 @@ margin-top: 30px;
   <div class="rock-buttons">
     <button class="rock-btn" onclick="selectRocks(1, this)">
       <span class="rock-emoji">🪨</span>
-      <span class="rock-count">1개</span>
     </button>
     <button class="rock-btn" onclick="selectRocks(2, this)">
       <span class="rock-emoji">🪨🪨</span>
-      <span class="rock-count">2개</span>
     </button>
     <button class="rock-btn selected" onclick="selectRocks(3, this)">
       <span class="rock-emoji">🪨🪨🪨</span>
-      <span class="rock-count">3개</span>
     </button>
   </div>
 
@@ -426,7 +423,6 @@ margin-top: 30px;
 <button class="back-button" onclick="location.href='index.html'">←</button>
 
 <h1>🪨 넘스톤</h1>
-<div class="version-badge">5×5 확장 모드</div>
 <div id="score-area">점수: <span id="score">0</span></div>
 
 <div id="queue-area">
@@ -454,7 +450,7 @@ margin-top: 30px;
 </div>
 
 <div id="overlay">
-  <h2>🪨 게임 오버</h2>
+  <h2>🪨 게임 종료</h2>
   <p>최종 점수: <strong id="final-score"></strong></p>
   <p class="diff-badge" id="diff-result"></p>
   <button id="restart-btn">같은 설정으로 다시</button>
