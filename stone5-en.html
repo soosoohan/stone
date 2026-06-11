@@ -842,7 +842,7 @@ function checkGameOver() {
   gameOver = true;
   document.getElementById('final-score').textContent = score;
   document.getElementById('diff-result').textContent =
-    DIFFICULTY_LABEL[currentDifficulty] + ' · 바위 ' + currentRocks + '개';
+    DIFFICULTY_LABEL[currentDifficulty] + currentRocks + 'rocks ' ;
   document.getElementById('overlay').classList.add('show');
 }
 
