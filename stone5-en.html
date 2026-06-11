@@ -1,0 +1,889 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script>
+  if (window.top !== window.self) {
+    window.top.location = "https://soosooland.com";
+  }
+  console.log("© 2025-2026 Soosooland by 한수수. All rights reserved.");
+  console.log("https://soosooland.com");
+  console.log("Numstone | Born: 2026-05-24");
+</script>
+   <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4YZHC1G9FN"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-4YZHC1G9FN');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Numstone 5X5 | Soosooland</title>
+<meta name="description" content="넘스톤 5×5 확장 모드 — 바위 장애물을 피해 숫자를 합체시키는 퍼즐 게임">
+<link rel="canonical" href="https://soosooland.com/stone/stone5.html">
+<link rel="alternate" hreflang="ko" href="https://soosooland.com/stone/stone5-ko.html">
+<link rel="alternate" hreflang="en" href="https://soosooland.com/stone/stone5-en.html">
+<meta property="og:title" content="넘스톤 5×5 | 수수랜드">
+<meta property="og:description" content="바위를 깨워라 — 숫자 합체 퍼즐">
+<meta property="og:url" content="https://soosooland.com/numstone/numstone5.html">
+<meta property="og:image" content="https://soosooland.com/images/stone.png">
+<link rel="stylesheet" href="https://soosooland.com/css/protection.css"> 
+<script src="https://soosooland.com/js/protection.js"></script>
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #1a1a2e;
+    color: #eee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  .back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 8px 10px;
+    font-size: 2em;
+    font-weight: bold;
+    background-color: #1a1a2e;
+    color: #CFF9FF;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 100;
+  }
+  .back-button:hover {
+    background-color: #1baf8f;
+    color: #fff;
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 6px;
+    letter-spacing: 2px;
+    color: #f0c040;
+  }
+
+  .version-badge {
+    background: #9b59b6;
+    color: #fff;
+    font-size: 0.75rem;
+    padding: 2px 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+  }
+
+  #score-area {
+    margin-bottom: 14px;
+    font-size: 1.1rem;
+    color: #ccc;
+  }
+
+  #score-area span {
+    color: #f0c040;
+    font-weight: bold;
+    font-size: 1.3rem;
+  }
+
+  #queue-area {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+    align-items: flex-end;
+  }
+
+  .queue-label {
+    font-size: 0.75rem;
+    color: #888;
+    margin-bottom: 4px;
+    text-align: center;
+  }
+
+  .queue-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .queue-card {
+    width: 56px;
+    height: 56px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+    background: #444;
+    color: #888;
+    transition: all 0.3s;
+  }
+
+  .queue-card.active {
+    transform: scale(1.1);
+    box-shadow: 0 0 12px rgba(240,192,64,0.6);
+  }
+
+  #col-buttons {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 4px;
+  }
+
+  .col-btn {
+    width: 62px;
+    height: 40px;
+    border-radius: 8px;
+    border: none;
+    background: #2a2a4a;
+    color: #444;
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    line-height: 1;
+    padding: 0;
+  }
+
+  .col-btn.selected {
+    background: #f0c040;
+    color: #1a1a2e;
+    font-size: 1.8rem;
+    transform: translateY(4px);
+    box-shadow: 0 4px 12px rgba(240,192,64,0.5);
+  }
+
+  .col-btn:hover:not(.selected) {
+    background: #3a3a6a;
+    color: #888;
+  }
+
+  #grid {
+    display: grid;
+    grid-template-columns: repeat(5, 62px);
+    grid-template-rows: repeat(5, 62px);
+    gap: 4px;
+    background: #111;
+    padding: 6px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  }
+
+  .cell {
+    width: 62px;
+    height: 62px;
+    border-radius: 8px;
+    background: #222;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: background 0.15s;
+  }
+
+  #drop-btn {
+    margin-top: 14px;
+    padding: 12px 40px;
+    border-radius: 10px;
+    border: none;
+    background: #f0c040;
+    color: #1a1a2e;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: none;
+  }
+
+  #pc-hint {
+    margin-top: 12px;
+    font-size: 0.8rem;
+    color: #666;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  /* 시작 화면 */
+  #start-screen {
+    position: fixed;
+    inset: 0;
+    background: #1a1a2e;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    z-index: 200;
+    padding: 20px;
+  }
+
+  #start-screen h1 { font-size: 2.8rem; margin-bottom: 0; }
+  #start-screen .subtitle { color: #888; font-size: 0.95rem; }
+
+  .section-label {
+    font-size: 0.8rem;
+    color: #888;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    align-self: flex-start;
+    width: 240px;
+  }
+
+  .difficulty-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 240px;
+  }
+
+  .diff-btn {
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 2px solid transparent;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.2s;
+  }
+
+  .diff-btn .diff-label { flex: 1; text-align: left; }
+  .diff-btn .diff-cards { font-size: 0.8rem; opacity: 0.8; }
+
+  .diff-btn.easy   { background: #1a3a1a; border-color: #56ab2f; color: #a8e063; }
+  .diff-btn.easy:hover   { background: #2a5a2a; }
+  .diff-btn.normal { background: #3a2a1a; border-color: #f39c12; color: #f0c040; }
+  .diff-btn.normal:hover { background: #5a3a1a; }
+  .diff-btn.hard   { background: #3a1a1a; border-color: #e74c3c; color: #ff8888; }
+  .diff-btn.hard:hover   { background: #5a1a1a; }
+
+  /* 바위 선택 */
+  .rock-buttons {
+    display: flex;
+    gap: 10px;
+    width: 240px;
+  }
+
+  .rock-btn {
+    flex: 1;
+    padding: 12px 8px;
+    border-radius: 12px;
+    border: 2px solid #333;
+    background: #2a2a4a;
+    color: #888;
+    font-size: 0.95rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    line-height: 1.5;
+  }
+
+  .rock-btn .rock-emoji { font-size: 1.1rem; display: block; margin-bottom: 2px; }
+  .rock-btn .rock-count { font-size: 0.75rem; display: block; color: #666; }
+
+  .rock-btn:hover { background: #3a3a6a; border-color: #555; }
+
+  .rock-btn.selected {
+    background: #2a2a5a;
+    border-color: #f0c040;
+    color: #f0c040;
+  }
+  .rock-btn.selected .rock-count { color: #f0c040; opacity: 0.7; }
+
+  .start-btn {
+    width: 240px;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    background: #f0c040;
+    color: #1a1a2e;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 4px;
+  }
+  .start-btn:hover { background: #ffd060; transform: translateY(-2px); }
+footer {
+text-align: center;
+color: #d1cbcb;
+font-size: 0.8rem;
+margin-top: 30px;
+}
+
+  /* 게임오버 */
+  #overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 100;
+  }
+
+  #overlay.show { display: flex; }
+  #overlay h2 { font-size: 2.5rem; color: #f0c040; }
+  #overlay p  { font-size: 1.2rem; color: #ccc; }
+
+  .diff-badge { font-size: 0.85rem; color: #888; margin-top: -10px; }
+
+  #restart-btn {
+    padding: 12px 36px;
+    border-radius: 10px;
+    border: none;
+    background: #f0c040;
+    color: #1a1a2e;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  #change-diff-btn {
+    padding: 8px 24px;
+    border-radius: 10px;
+    border: 1px solid #444;
+    background: transparent;
+    color: #aaa;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+
+  @keyframes merge-pop {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.3); }
+    100% { transform: scale(1); }
+  }
+  .merge-anim { animation: merge-pop 0.2s ease; }
+
+  @keyframes reveal-anim {
+    0%   { transform: scale(1.3); filter: brightness(2); }
+    100% { transform: scale(1);   filter: brightness(1); }
+  }
+  .reveal-anim { animation: reveal-anim 0.35s ease; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+<!-- 시작 화면 -->
+<div id="start-screen">
+  <button class="back-button" onclick="location.href='index.html'">←</button>
+  <h1>넘스톤 5×5</h1>
+  <p class="subtitle">숫자 합체 퍼즐 5×5</p>
+
+  <div class="section-label">난이도</div>
+  <div class="difficulty-buttons">
+    <button class="diff-btn easy"   onclick="selectDiff('easy',   this)">
+      <span>🟢</span><span class="diff-label">쉬움</span><span class="diff-cards">2, 4</span>
+    </button>
+    <button class="diff-btn normal" onclick="selectDiff('normal', this)">
+      <span>🟡</span><span class="diff-label">보통</span><span class="diff-cards">2, 4, 8</span>
+    </button>
+    <button class="diff-btn hard"   onclick="selectDiff('hard',   this)">
+      <span>🔴</span><span class="diff-label">어려움</span><span class="diff-cards">2, 4, 8, 16</span>
+    </button>
+  </div>
+
+  <div class="section-label">바위 개수</div>
+  <div class="rock-buttons">
+    <button class="rock-btn" onclick="selectRocks(1, this)">
+      <span class="rock-emoji">🪨</span>
+      <span class="rock-count">1개</span>
+    </button>
+    <button class="rock-btn" onclick="selectRocks(2, this)">
+      <span class="rock-emoji">🪨🪨</span>
+      <span class="rock-count">2개</span>
+    </button>
+    <button class="rock-btn selected" onclick="selectRocks(3, this)">
+      <span class="rock-emoji">🪨🪨🪨</span>
+      <span class="rock-count">3개</span>
+    </button>
+  </div>
+
+  <button class="start-btn" onclick="startGame()">게임 시작</button>
+  <footer>
+  <p>© 2026 Han Soosoo. All rights reserved.</p>
+</footer>
+
+</div>
+
+<!-- 게임 화면 -->
+<button class="back-button" onclick="location.href='index.html'">←</button>
+
+<h1>🪨 넘스톤</h1>
+<div class="version-badge">5×5 확장 모드</div>
+<div id="score-area">점수: <span id="score">0</span></div>
+
+<div id="queue-area">
+  <div class="queue-slot">
+    <div class="queue-label">다음</div>
+    <div class="queue-card active" id="q0"></div>
+  </div>
+  <div class="queue-slot">
+    <div class="queue-label"></div>
+    <div class="queue-card" id="q1"></div>
+  </div>
+  <div class="queue-slot">
+    <div class="queue-label"></div>
+    <div class="queue-card" id="q2"></div>
+  </div>
+</div>
+
+<div id="col-buttons"></div>
+<div id="grid"></div>
+<button id="drop-btn">▼ 낙하</button>
+
+<div id="pc-hint">
+  ← → 방향키로 열 선택 &nbsp;|&nbsp; Enter로 낙하<br>
+  모바일: 열 버튼 탭 후 낙하 버튼
+</div>
+
+<div id="overlay">
+  <h2>🪨 게임 오버</h2>
+  <p>최종 점수: <strong id="final-score"></strong></p>
+  <p class="diff-badge" id="diff-result"></p>
+  <button id="restart-btn">같은 설정으로 다시</button>
+  <button id="change-diff-btn">설정 바꾸기</button>
+</div>
+
+<script>
+const ROWS = 5, COLS = 5;
+const ROCK_VALUES = [64, 128, 256];
+const QUEUE_SIZE = 3;
+
+const DIFFICULTY_CARDS = {
+  easy:   [2, 4],
+  normal: [2, 4, 8],
+  hard:   [2, 4, 8, 16],
+};
+
+const DIFFICULTY_LABEL = {
+  easy:   '🟢 쉬움',
+  normal: '🟡 보통',
+  hard:   '🔴 어려움',
+};
+
+const COLOR_MAP = {
+2:       { bg: '#B8E986', fg: '#2F4F1F' },
+4:       { bg: '#7ED957', fg: '#FFFFFF' },
+
+8:       { bg: '#4DD0E1', fg: '#FFFFFF' },
+16:      { bg: '#42A5F5', fg: '#FFFFFF' },
+
+32:      { bg: '#7E57C2', fg: '#FFFFFF' },
+64:      { bg: '#EC407A', fg: '#FFFFFF' },
+
+128:     { bg: '#FFA726', fg: '#FFFFFF' },
+256:     { bg: '#FF7043', fg: '#FFFFFF' },
+
+512:     { bg: '#E53935', fg: '#FFFFFF' },
+
+1024:    { bg: '#B0BEC5', fg: '#263238' },
+
+2048:    { bg: '#FFF8E1', fg: '#F57C00' },
+
+4096:    { bg: '#FFE082', fg: '#8D6E00' },
+8192:    { bg: '#FFD54F', fg: '#6D4C00' },
+
+16384:   { bg: '#F8BBD0', fg: '#880E4F' },
+32768:   { bg: '#CE93D8', fg: '#4A148C' },
+
+};
+
+function getColor(val) {
+  return COLOR_MAP[val] || { bg: '#f0c040', fg: '#1a1a2e' };
+}
+
+let board, queue, selectedCol, score, gameOver, isMobile;
+let currentDifficulty = 'normal';
+let currentRocks = 3;
+
+// 시작 화면 선택
+function selectDiff(diff, el) {
+  currentDifficulty = diff;
+  document.querySelectorAll('.diff-btn').forEach(b => b.style.opacity = '0.45');
+  el.style.opacity = '1';
+}
+
+function selectRocks(n, el) {
+  currentRocks = n;
+  document.querySelectorAll('.rock-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function startGame() {
+  if (!currentDifficulty) {
+    // 난이도 미선택 시 보통으로 기본값
+    currentDifficulty = 'normal';
+  }
+  document.getElementById('start-screen').style.display = 'none';
+  init();
+}
+
+function init() {
+  score = 0;
+  gameOver = false;
+  selectedCol = 0;
+  document.getElementById('score').textContent = '0';
+  document.getElementById('overlay').classList.remove('show');
+
+  board = Array.from({ length: ROWS }, () =>
+    Array.from({ length: COLS }, () => ({ value: 0, isRock: false, hidden: false }))
+  );
+
+  const rockCols = shuffleArray([0,1,2,3,4]).slice(0, currentRocks);
+  rockCols.forEach(c => {
+    const r = 1 + Math.floor(Math.random() * (ROWS - 1));
+    const rv = ROCK_VALUES[Math.floor(Math.random() * ROCK_VALUES.length)];
+    board[r][c] = { value: rv, isRock: true, hidden: true };
+  });
+
+  queue = Array.from({ length: QUEUE_SIZE + 10 }, randomCard);
+
+  isMobile = window.innerWidth <= 640 || 'ontouchstart' in window;
+  document.getElementById('drop-btn').style.display = isMobile ? 'block' : 'none';
+  document.getElementById('pc-hint').style.display  = isMobile ? 'none'  : 'block';
+
+  buildGrid();
+  buildColButtons();
+  updateQueueUI();
+  renderBoard();
+  highlightCol();
+}
+
+function shuffleArray(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function randomCard() {
+  const cards = DIFFICULTY_CARDS[currentDifficulty];
+  const weights = [50, 35, 15, 10];
+  const total = weights.slice(0, cards.length).reduce((a,b) => a+b, 0);
+  let r = Math.random() * total;
+  for (let i = 0; i < cards.length; i++) {
+    r -= weights[i];
+    if (r <= 0) return cards[i];
+  }
+  return cards[0];
+}
+
+function buildGrid() {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      const cell = document.createElement('div');
+      cell.className = 'cell';
+      cell.id = `cell-${r}-${c}`;
+      grid.appendChild(cell);
+    }
+  }
+}
+
+function buildColButtons() {
+  const container = document.getElementById('col-buttons');
+  container.innerHTML = '';
+  for (let c = 0; c < COLS; c++) {
+    const btn = document.createElement('button');
+    btn.className = 'col-btn' + (c === selectedCol ? ' selected' : '');
+    btn.textContent = '▼';
+    btn.addEventListener('click', () => {
+      selectedCol = c;
+      highlightCol();
+      if (isMobile) return;
+      dropCard();
+    });
+    container.appendChild(btn);
+  }
+}
+
+function highlightCol() {
+  document.querySelectorAll('.col-btn').forEach((btn, i) => {
+    btn.classList.toggle('selected', i === selectedCol);
+  });
+}
+
+function renderBoard(mergeSet, revealSet) {
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      const el = document.getElementById(`cell-${r}-${c}`);
+      const d = board[r][c];
+
+      el.classList.remove('merge-anim', 'reveal-anim');
+      void el.offsetWidth;
+
+      if (mergeSet && mergeSet.has(`${r}-${c}`)) el.classList.add('merge-anim');
+      if (revealSet && revealSet.has(`${r}-${c}`)) el.classList.add('reveal-anim');
+
+      if (d.isRock && d.hidden) {
+        el.style.background = '#2d2d2d';
+        el.style.color = '#555';
+        el.style.border = '3px solid #444';
+        el.textContent = '🪨';
+        el.style.fontSize = '1.6rem';
+      
+} else if (d.isRock && !d.hidden) {
+  el.style.background = '#4a4a4a';  // 어두운 돌 색
+  el.style.color = '#f0c040';       // 노란 숫자
+  el.style.border = '3px solid #888';
+  el.textContent = d.value;
+  el.style.fontSize = fontSize(d.value);
+      } else if (d.value > 0) {
+        const col = getColor(d.value);
+        el.style.background = col.bg;
+        el.style.color = col.fg;
+        el.style.border = 'none';
+        el.textContent = d.value;
+        el.style.fontSize = fontSize(d.value);
+      } else {
+        el.style.background = '#222';
+        el.style.color = '#555';
+        el.style.border = 'none';
+        el.textContent = '';
+        el.style.fontSize = '1.2rem';
+      }
+    }
+  }
+}
+
+function fontSize(v) {
+  if (v >= 1000) return '0.9rem';
+  if (v >= 100)  return '1rem';
+  return '1.2rem';
+}
+
+function updateQueueUI() {
+  for (let i = 0; i < QUEUE_SIZE; i++) {
+    const el = document.getElementById(`q${i}`);
+    if (!el) continue;
+    const val = queue[i];
+    el.textContent = val ?? '';
+    el.style.background = i === 0 ? '#555' : '#333';
+    el.style.color      = i === 0 ? '#eee' : '#777';
+    el.className = 'queue-card' + (i === 0 ? ' active' : '');
+  }
+}
+
+function dropCard() {
+  if (gameOver) return;
+
+  const col = selectedCol;
+  const cardVal = queue[0];
+
+  let targetRow = -1;
+  for (let r = 0; r < ROWS; r++) {
+    const cell = board[r][col];
+    if (cell.isRock || cell.value > 0) {
+      if (r > 0 && board[r-1][col].value === 0 && !board[r-1][col].isRock) {
+        targetRow = r - 1;
+      }
+      break;
+    }
+    if (r === ROWS - 1) targetRow = r;
+  }
+
+  if (targetRow === -1) {
+    checkGameOver();
+    return;
+  }
+
+  board[targetRow][col] = { value: cardVal, isRock: false, hidden: false };
+  queue.shift();
+  queue.push(randomCard());
+  updateQueueUI();
+
+  const mergeSet  = new Set();
+  const revealSet = new Set();
+  runMergeLoop(targetRow, col, mergeSet, revealSet);
+
+  renderBoard(mergeSet, revealSet);
+  checkGameOver();
+}
+
+function runMergeLoop(newR, newC, mergeSet, revealSet) {
+  let q = [{ r: newR, c: newC }];
+
+  while (q.length > 0) {
+    const next = [];
+    for (const { r, c } of q) {
+      if (board[r][c].value === 0) continue;
+      const val = board[r][c].value;
+      const dirs = [[-1,0],[1,0],[0,-1],[0,1]];
+
+      for (const [dr, dc] of dirs) {
+        const nr = r + dr, nc = c + dc;
+        if (nr < 0 || nr >= ROWS || nc < 0 || nc >= COLS) continue;
+        const nb = board[nr][nc];
+
+        if (nb.isRock) {
+          if (nb.hidden && nb.value === val * 2) {
+            board[nr][nc].hidden = false;
+            revealSet.add(`${nr}-${nc}`);
+          } else if (!nb.hidden && nb.value === val) {
+            score += val * 2;
+            document.getElementById('score').textContent = score;
+            board[nr][nc] = { value: val * 2, isRock: false, hidden: false };
+            board[r][c]   = { value: 0, isRock: false, hidden: false };
+            mergeSet.add(`${nr}-${nc}`);
+            next.push({ r: nr, c: nc });
+          }
+          continue;
+        }
+
+        if (nb.value === val) {
+          const newVal = val * 2;
+          score += newVal;
+          document.getElementById('score').textContent = score;
+          board[nr][nc] = { value: newVal, isRock: false, hidden: false };
+          board[r][c]   = { value: 0, isRock: false, hidden: false };
+          mergeSet.add(`${nr}-${nc}`);
+          next.push({ r: nr, c: nc });
+          if (newVal === 256) fireConfetti();
+          break;
+        }
+      }
+    }
+
+    applyGravityAll();
+
+    if (next.length === 0) {
+      const seen = new Set();
+      for (let r = 0; r < ROWS; r++) {
+        for (let c = 0; c < COLS; c++) {
+          const cur = board[r][c];
+          if (cur.value === 0 || cur.isRock) continue;
+
+          const dirs = [[-1,0],[1,0],[0,-1],[0,1]];
+          for (const [dr, dc] of dirs) {
+            const nr = r + dr, nc = c + dc;
+            if (nr < 0 || nr >= ROWS || nc < 0 || nc >= COLS) continue;
+            const nb = board[nr][nc];
+
+            if (!nb.isRock && nb.value === cur.value) {
+              const key = `${r}-${c}`;
+              if (!seen.has(key)) {
+                next.push({ r, c });
+                seen.add(key);
+                seen.add(`${nr}-${nc}`);
+              }
+              break;
+            }
+
+            if (nb.isRock && !nb.hidden && nb.value === cur.value) {
+              const key = `${r}-${c}`;
+              if (!seen.has(key)) {
+                next.push({ r, c });
+                seen.add(key);
+              }
+              break;
+            }
+          }
+        }
+      }
+    }
+
+    q = next;
+  }
+}
+
+function applyGravityAll() {
+  for (let c = 0; c < COLS; c++) {
+    getColumnSegments(c).forEach(seg => compactDown(c, seg));
+  }
+}
+
+function getColumnSegments(c) {
+  const segments = [];
+  let start = 0;
+  for (let r = 0; r < ROWS; r++) {
+    if (board[r][c].isRock) {
+      if (r > start) segments.push({ from: start, to: r - 1 });
+      start = r + 1;
+    }
+  }
+  if (start < ROWS) segments.push({ from: start, to: ROWS - 1 });
+  return segments;
+}
+
+function compactDown(c, { from, to }) {
+  let writeRow = to;
+  for (let r = to; r >= from; r--) {
+    if (board[r][c].value > 0 && !board[r][c].isRock) {
+      if (r !== writeRow) {
+        board[writeRow][c] = { ...board[r][c] };
+        board[r][c] = { value: 0, isRock: false, hidden: false };
+      }
+      writeRow--;
+    }
+  }
+  for (let r = writeRow; r >= from; r--) {
+    board[r][c] = { value: 0, isRock: false, hidden: false };
+  }
+}
+
+function checkGameOver() {
+  for (let c = 0; c < COLS; c++) {
+    const cell = board[0][c];
+    if (!cell.isRock && cell.value === 0) return;
+  }
+  gameOver = true;
+  document.getElementById('final-score').textContent = score;
+  document.getElementById('diff-result').textContent =
+    DIFFICULTY_LABEL[currentDifficulty] + ' · 바위 ' + currentRocks + '개';
+  document.getElementById('overlay').classList.add('show');
+}
+
+document.addEventListener('keydown', e => {
+  if (gameOver) return;
+  if (e.key === 'ArrowLeft')  { e.preventDefault(); selectedCol = Math.max(0, selectedCol - 1); highlightCol(); }
+  if (e.key === 'ArrowRight') { e.preventDefault(); selectedCol = Math.min(COLS - 1, selectedCol + 1); highlightCol(); }
+  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); dropCard(); }
+});
+
+document.getElementById('drop-btn').addEventListener('click', dropCard);
+document.getElementById('restart-btn').addEventListener('click', init);
+document.getElementById('change-diff-btn').addEventListener('click', () => {
+  document.getElementById('overlay').classList.remove('show');
+  document.getElementById('start-screen').style.display = 'flex';
+});
+
+function fireConfetti() {
+  const canvas = document.createElement('canvas');
+  canvas.style.cssText = `
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 99999;
+    pointer-events: none;
+  `;
+  document.body.appendChild(canvas);
+
+  const myConfetti = confetti.create(canvas, { resize: true });
+  myConfetti({ particleCount: 80, angle: 60,  spread: 70, origin: { x: 0, y: 0.7 } });
+  myConfetti({ particleCount: 80, angle: 120, spread: 70, origin: { x: 1, y: 0.7 } });
+
+  setTimeout(() => canvas.remove(), 4000);
+}
+</script>
+</body>
+</html>
