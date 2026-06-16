@@ -385,7 +385,7 @@
     try {
       const q = query(
         collection(db, "scores"),
-        where("mode", "==", "numstone_battle"),
+        where("mode", "==", "numstone_6X6"),
         where("score", ">", score)
       );
       const snapshot = await getCountFromServer(q);
@@ -397,7 +397,7 @@
     try {
       const q = query(
         collection(db, "scores"),
-        where("mode", "==", "numstone_battle"),
+        where("mode", "==", "numstone_6X6"),
         orderBy("score", "desc"),
         limit(10)
       );
