@@ -19,7 +19,7 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>넘스톤 4×4 | Soosooland</title>
+<title>넘스톤 4X4 | Soosooland</title>
 <meta name="description" content="넘스톤 4×4 — 바위를 깨고 전세계와 점수 대결!">
 <link rel="canonical" href="https://soosooland.com/stone/stone4-ko.html">
 <link rel="alternate" hreflang="ko" href="https://soosooland.com/stone/stone4-ko.html">
@@ -292,7 +292,7 @@
 
 <button class="back-button" onclick="location.href='index.html'">←</button>
 <h1>Numstone</h1>
-<div class="version-badge">4×4</div>
+<div class="version-badge">4X4</div>
 <div id="score-area">점수: <span id="score">0</span></div>
 
 <div id="queue-area">
@@ -375,7 +375,7 @@
         nickname,
         score,
         isAuto: true,
-        mode: "numstone_4x4",
+        mode: "numstone_4X4",
         timestamp: new Date()
       });
     } catch (e) {}
@@ -385,7 +385,7 @@
     try {
       const q = query(
         collection(db, "scores"),
-        where("mode", "==", "numstone_battle_4x4"),
+        where("mode", "==", "numstone_4X4"),
         where("score", ">", score)
       );
       const snapshot = await getCountFromServer(q);
@@ -397,7 +397,7 @@
     try {
       const q = query(
         collection(db, "scores"),
-        where("mode", "==", "numstone_battle_4x4"),
+        where("mode", "==", "numstone_4X4"),
         orderBy("score", "desc"),
         limit(10)
       );
