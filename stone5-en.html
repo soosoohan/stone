@@ -1,16 +1,14 @@
-
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <script>
   if (window.top !== window.self) {
     window.top.location = "https://soosooland.com";
   }
-  console.log("© 2025-2026 Soosooland by 한수수. All rights reserved.");
+  console.log("© 2025-2026 Soosooland by Han Soosoo. All rights reserved.");
   console.log("https://soosooland.com");
   console.log("Numstone | Born: 2026-05-24");
 </script>
-   <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-4YZHC1G9FN"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -21,15 +19,15 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Numstone 5X5 | Soosooland</title>
-<meta name="description" content="Numstone 5×5 mode — A puzzle game where you merge numbers while avoiding rock obstacles">
+<title>Numstone 5×5 | Soosooland</title>
+<meta name="description" content="Numstone 5×5 — A puzzle game where you merge numbers while avoiding rock obstacles">
 <link rel="canonical" href="https://soosooland.com/stone/stone5-en.html">
 <link rel="alternate" hreflang="ko" href="https://soosooland.com/stone/stone5-ko.html">
 <link rel="alternate" hreflang="en" href="https://soosooland.com/stone/stone5-en.html">
-<meta property="og:title" content="Numstone 5×5 | Soosooland">
-<meta property="og:description" content="Wake the Rocks — A number merging puzzle">
-<meta property="og:url" content="https://soosooland.com/stone/stone5-en.html">
+<meta property="og:title" content=" 5×5 | Soosooland">
+<meta property="og:description" content="Wake the Rocks — Compete for the Global Leaderboard">
 <meta property="og:image" content="https://soosooland.com/images/stone.png">
+<meta property="og:url" content="https://soosooland.com/stone/stone5-en.html">
 <link rel="stylesheet" href="https://soosooland.com/css/protection.css"> 
 <script src="https://soosooland.com/js/protection.js"></script>
 
@@ -62,10 +60,7 @@
     transition: all 0.3s ease;
     z-index: 100;
   }
-  .back-button:hover {
-    background-color: #1baf8f;
-    color: #fff;
-  }
+  .back-button:hover { background-color: #1baf8f; color: #fff; }
 
   h1 {
     font-size: 2rem;
@@ -75,7 +70,7 @@
   }
 
   .version-badge {
-    background: #9b59b6;
+    background: #e74c3c;
     color: #fff;
     font-size: 0.75rem;
     padding: 2px 10px;
@@ -88,7 +83,6 @@
     font-size: 1.1rem;
     color: #ccc;
   }
-
   #score-area span {
     color: #f0c040;
     font-weight: bold;
@@ -116,19 +110,18 @@
   }
 
   .queue-card {
-    width: 56px;
-    height: 56px;
+    width: 52px;
+    height: 52px;
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: bold;
     background: #444;
     color: #888;
     transition: all 0.3s;
   }
-
   .queue-card.active {
     transform: scale(1.1);
     box-shadow: 0 0 12px rgba(240,192,64,0.6);
@@ -141,7 +134,7 @@
   }
 
   .col-btn {
-    width: 62px;
+    width: 64px;
     height: 40px;
     border-radius: 8px;
     border: none;
@@ -153,7 +146,6 @@
     line-height: 1;
     padding: 0;
   }
-
   .col-btn.selected {
     background: #f0c040;
     color: #1a1a2e;
@@ -161,16 +153,12 @@
     transform: translateY(4px);
     box-shadow: 0 4px 12px rgba(240,192,64,0.5);
   }
-
-  .col-btn:hover:not(.selected) {
-    background: #3a3a6a;
-    color: #888;
-  }
+  .col-btn:hover:not(.selected) { background: #3a3a6a; color: #888; }
 
   #grid {
     display: grid;
-    grid-template-columns: repeat(5, 62px);
-    grid-template-rows: repeat(5, 62px);
+    grid-template-columns: repeat(5, 64px);
+    grid-template-rows: repeat(5, 64px);
     gap: 4px;
     background: #111;
     padding: 6px;
@@ -179,14 +167,14 @@
   }
 
   .cell {
-    width: 62px;
-    height: 62px;
+    width: 64px;
+    height: 64px;
     border-radius: 8px;
     background: #222;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     font-weight: bold;
     transition: background 0.15s;
   }
@@ -212,135 +200,59 @@
     line-height: 1.6;
   }
 
-  /* 시작 화면 */
-  #start-screen {
-    position: fixed;
-    inset: 0;
-    background: #1a1a2e;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    z-index: 200;
-    padding: 20px;
-  }
-
-  #start-screen h1 { font-size: 2.8rem; margin-bottom: 0; }
-  #start-screen .subtitle { color: #888; font-size: 0.95rem; }
-
-  .section-label {
-    font-size: 0.8rem;
-    color: #888;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    align-self: flex-start;
-    width: 240px;
-  }
-
-  .difficulty-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 240px;
-  }
-
-  .diff-btn {
-    padding: 12px 16px;
-    border-radius: 12px;
-    border: 2px solid transparent;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    transition: all 0.2s;
-  }
-
-  .diff-btn .diff-label { flex: 1; text-align: left; }
-  .diff-btn .diff-cards { font-size: 0.8rem; opacity: 0.8; }
-
-  .diff-btn.easy   { background: #1a3a1a; border-color: #56ab2f; color: #a8e063; }
-  .diff-btn.easy:hover   { background: #2a5a2a; }
-  .diff-btn.normal { background: #3a2a1a; border-color: #f39c12; color: #f0c040; }
-  .diff-btn.normal:hover { background: #5a3a1a; }
-  .diff-btn.hard   { background: #3a1a1a; border-color: #e74c3c; color: #ff8888; }
-  .diff-btn.hard:hover   { background: #5a1a1a; }
-
-  /* 바위 선택 */
-  .rock-buttons {
-    display: flex;
-    gap: 10px;
-    width: 240px;
-  }
-
-  .rock-btn {
-    flex: 1;
-    padding: 12px 8px;
-    border-radius: 12px;
-    border: 2px solid #333;
-    background: #2a2a4a;
-    color: #888;
-    font-size: 0.95rem;
-    font-weight: bold;
-    cursor: pointer;
-    text-align: center;
-    transition: all 0.2s;
-    line-height: 1.5;
-  }
-
-  .rock-btn .rock-emoji { font-size: 1.1rem; display: block; margin-bottom: 2px; }
-  .rock-btn .rock-count { font-size: 0.75rem; display: block; color: #666; }
-
-  .rock-btn:hover { background: #3a3a6a; border-color: #555; }
-
-  .rock-btn.selected {
-    background: #2a2a5a;
-    border-color: #f0c040;
+  .ranking-title {
+    font-size: 0.9rem;
     color: #f0c040;
+    margin-bottom: 8px;
+    text-align: center;
   }
-  .rock-btn.selected .rock-count { color: #f0c040; opacity: 0.7; }
 
-  .start-btn {
-    width: 240px;
-    padding: 14px;
-    border-radius: 12px;
-    border: none;
-    background: #f0c040;
-    color: #1a1a2e;
-    font-size: 1.1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.2s;
-    margin-top: 4px;
+  .ranking-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    color: #ccc;
+    background: #2a2a4a;
+    margin-bottom: 4px;
   }
-  .start-btn:hover { background: #ffd060; transform: translateY(-2px); }
-footer {
-text-align: center;
-color: #d1cbcb;
-font-size: 0.8rem;
-margin-top: 30px;
-}
+  .ranking-row .rank-num { width: 24px; color: #888; }
+  .ranking-row .rank-name { flex: 1; }
+  .ranking-row .rank-score { font-weight: bold; }
 
-  /* 게임오버 */
+  #live-ranking {
+    margin-top: 14px;
+    width: 100%;
+    max-width: 340px;
+    display: none;
+  }
+
   #overlay {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.75);
+    background: rgba(0,0,0,0.85);
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: 20px;
+    gap: 14px;
     z-index: 100;
+    padding: 20px;
+    overflow-y: auto;
   }
-
   #overlay.show { display: flex; }
-  #overlay h2 { font-size: 2.5rem; color: #f0c040; }
-  #overlay p  { font-size: 1.2rem; color: #ccc; }
+  #overlay h2 { font-size: 2.2rem; color: #f0c040; }
+  #overlay p  { font-size: 1.1rem; color: #ccc; }
 
-  .diff-badge { font-size: 0.85rem; color: #888; margin-top: -10px; }
+  #my-id-badge {
+    font-size: 0.85rem;
+    color: #888;
+    background: #2a2a4a;
+    padding: 6px 14px;
+    border-radius: 8px;
+    letter-spacing: 2px;
+  }
 
   #restart-btn {
     padding: 12px 36px;
@@ -353,14 +265,11 @@ margin-top: 30px;
     cursor: pointer;
   }
 
-  #change-diff-btn {
-    padding: 8px 24px;
-    border-radius: 10px;
-    border: 1px solid #444;
-    background: transparent;
-    color: #aaa;
-    font-size: 0.9rem;
-    cursor: pointer;
+  footer {
+    text-align: center;
+    color: #d1cbcb;
+    font-size: 0.8rem;
+    margin-top: 30px;
   }
 
   @keyframes merge-pop {
@@ -378,53 +287,17 @@ margin-top: 30px;
 </style>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
-<body>
 
-<!-- 시작 화면 -->
-<div id="start-screen">
-  <button class="back-button" onclick="location.href='index.html'">←</button>
-  <h1>Numstone 5×5</h1>
-  <p class="subtitle">Number Merge Puzzlle 5×5</p>
+<body onload="init()">
 
-  <div class="section-label">Mode</div>
-  <div class="difficulty-buttons">
-    <button class="diff-btn easy"   onclick="selectDiff('easy',  this)">
-      <span>🟢</span><span class="diff-label">Easy</span><span class="diff-cards">2, 4</span>
-    </button>
-    <button class="diff-btn normal" onclick="selectDiff('normal', this)">
-      <span>🟡</span><span class="diff-label">Normal</span><span class="diff-cards">2, 4, 8</span>
-    </button>
-    <button class="diff-btn hard"   onclick="selectDiff('hard',   this)">
-      <span>🔴</span><span class="diff-label">Hard</span><span class="diff-cards">2, 4, 8, 16</span>
-    </button>
-  </div>
-
-  <div class="section-label">rocks</div>
-  <div class="rock-buttons">
-    <button class="rock-btn" onclick="selectRocks(2, this)">
-      <span class="rock-emoji">🪨🪨</span>
-    </button>
-    <button class="rock-btn selected" onclick="selectRocks(3, this)">
-      <span class="rock-emoji">🪨🪨🪨</span>
-    </button>
-  </div>
-
-  <button class="start-btn" onclick="startGame()">Start Game</button>
-  <footer>
-  <p>© 2026 Han Soosoo. All rights reserved.</p>
-</footer>
-
-</div>
-
-<!-- 게임 화면 -->
 <button class="back-button" onclick="location.href='index.html'">←</button>
-
 <h1>Numstone</h1>
-<div id="score-area">Score: <span id="score">0</span></div>
+<div class="version-badge">5×5</div>
+<div id="score-area">score: <span id="score">0</span></div>
 
 <div id="queue-area">
   <div class="queue-slot">
-    <div class="queue-label">next</div>
+    <div class="queue-label">Next</div>
     <div class="queue-card active" id="q0"></div>
   </div>
   <div class="queue-slot">
@@ -439,63 +312,129 @@ margin-top: 30px;
 
 <div id="col-buttons"></div>
 <div id="grid"></div>
-<button id="drop-btn">▼ Drop</button>
+<button id="drop-btn">▼ drop</button>
 
 <div id="pc-hint">
  ← → Arrow keys to select column &nbsp;|&nbsp; Space / Enter to drop<br>
  Mobile: tap column button then drop button
 </div>
 
+<button id="ranking-btn" style="margin-top:14px; padding:10px 28px; border-radius:10px; border:none; background:#2a2a4a; color:#f0c040; font-size:0.95rem; cursor:pointer;">🏆 Leaderboard</button>
+<div id="live-ranking"></div>
+
 <div id="overlay">
-  <h2>🪨 Game Over</h2>
+  <h2>🪨 Game over</h2>
   <p>Score: <strong id="final-score"></strong></p>
-  <p class="diff-badge" id="diff-result"></p>
-  <button id="restart-btn">Play Again</button>
-  <button id="change-diff-btn">Change Difficulty</button>
+  <div id="my-id-badge"></div>
+  <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center;">
+    <button id="save-score-btn" style="padding:12px 28px; border-radius:10px; border:none; background:#a8e063; color:#1a1a2e; font-size:1rem; font-weight:bold; cursor:pointer;">💾 save score</button>
+    <button id="restart-btn">Play again</button>
+  </div>
 </div>
+
+<footer>
+  <p>© 2026 Han Soosoo. All rights reserved.</p>
+</footer>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, query, where, orderBy, limit, getDocs, getCountFromServer }
+    from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDpe1rRJbCO8t_yXDAzArhLS2fJ-z8TRJ8",
+    authDomain: "numstone-fcc75.firebaseapp.com",
+    projectId: "numstone-fcc75",
+    storageBucket: "numstone-fcc75.firebasestorage.app",
+    messagingSenderId: "162509373871",
+    appId: "1:162509373871:web:7a613044da3a1f91d76f5a",
+    measurementId: "G-B37HSD6GW9"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  function getOrCreateUserId() {
+    let uid = localStorage.getItem('numtle_uid');
+    if (!uid) {
+      const C = 'BCDFGHJKLMNPQRSTVWXZ';
+      const D = '0123456789';
+      const rc = () => C[Math.floor(Math.random() * C.length)];
+      const rd = () => D[Math.floor(Math.random() * D.length)];
+      uid = rc() + rc() + rd() + rd() + rc() + rc();
+      localStorage.setItem('numtle_uid', uid);
+    }
+    return uid;
+  }
+
+  window.getOrCreateUserId = getOrCreateUserId;
+
+  window.saveScore = async function(score, nickname) {
+    try {
+      await addDoc(collection(db, "scores"), {
+        nickname,
+        score,
+        isAuto: true,
+        mode: "numstone_battle_5x5",
+        timestamp: new Date()
+      });
+    } catch (e) {}
+  };
+
+  window.getMyRank = async function(score) {
+    try {
+      const q = query(
+        collection(db, "scores"),
+        where("mode", "==", "numstone_battle_5x5"),
+        where("score", ">", score)
+      );
+      const snapshot = await getCountFromServer(q);
+      return snapshot.data().count + 1;
+    } catch (e) { return null; }
+  };
+
+  window.getRankings = async function() {
+    try {
+      const q = query(
+        collection(db, "scores"),
+        where("mode", "==", "numstone_battle_5x5"),
+        orderBy("score", "desc"),
+        limit(10)
+      );
+      const snapshot = await getDocs(q);
+      return snapshot.docs.map(doc => doc.data());
+    } catch (e) { return []; }
+  };
+</script>
 
 <script>
 const ROWS = 5, COLS = 5;
-const ROCK_VALUES = [64, 128, 256];
+const ROCK_VALUES_POOL = [32, 64, 128, 256];
+const NUM_ROCKS = 4;
 const QUEUE_SIZE = 3;
-
-const DIFFICULTY_CARDS = {
-  easy:   [2, 4],
-  normal: [2, 4, 8],
-  hard:   [2, 4, 8, 16],
-};
-
-const DIFFICULTY_LABEL = {
-  easy:   '🟢 Easy',
-  normal: '🟡 Normal',
-  hard:   '🔴 Hard',
-};
+const CARDS = [2, 4, 8];
+const CARD_WEIGHTS = [50, 35, 15];
 
 const COLOR_MAP = {
 2:       { bg: '#B8E986', fg: '#2F4F1F' },
 4:       { bg: '#7ED957', fg: '#FFFFFF' },
-
 8:       { bg: '#4DD0E1', fg: '#FFFFFF' },
 16:      { bg: '#42A5F5', fg: '#FFFFFF' },
-
 32:      { bg: '#7E57C2', fg: '#FFFFFF' },
 64:      { bg: '#EC407A', fg: '#FFFFFF' },
-
 128:     { bg: '#FFA726', fg: '#FFFFFF' },
 256:     { bg: '#FF7043', fg: '#FFFFFF' },
-
 512:     { bg: '#E53935', fg: '#FFFFFF' },
-
 1024:    { bg: '#B0BEC5', fg: '#263238' },
-
 2048:    { bg: '#FFF8E1', fg: '#F57C00' },
-
 4096:    { bg: '#FFE082', fg: '#8D6E00' },
 8192:    { bg: '#FFD54F', fg: '#6D4C00' },
-
 16384:   { bg: '#F8BBD0', fg: '#880E4F' },
 32768:   { bg: '#CE93D8', fg: '#4A148C' },
-
+65536:   { bg: '#90CAF9', fg: '#0D47A1' },
+131072:  { bg: '#80CBC4', fg: '#004D40' },
+262144:  { bg: '#C5E1A5', fg: '#33691E' },
+524288:  { bg: '#FFF176', fg: '#5D4037' },
 };
 
 function getColor(val) {
@@ -503,30 +442,6 @@ function getColor(val) {
 }
 
 let board, queue, selectedCol, score, gameOver, isMobile;
-let currentDifficulty = 'normal';
-let currentRocks = 3;
-
-// 시작 화면 선택
-function selectDiff(diff, el) {
-  currentDifficulty = diff;
-  document.querySelectorAll('.diff-btn').forEach(b => b.style.opacity = '0.45');
-  el.style.opacity = '1';
-}
-
-function selectRocks(n, el) {
-  currentRocks = n;
-  document.querySelectorAll('.rock-btn').forEach(b => b.classList.remove('selected'));
-  el.classList.add('selected');
-}
-
-function startGame() {
-  if (!currentDifficulty) {
-    // 난이도 미선택 시 보통으로 기본값
-    currentDifficulty = 'normal';
-  }
-  document.getElementById('start-screen').style.display = 'none';
-  init();
-}
 
 function init() {
   score = 0;
@@ -534,21 +449,22 @@ function init() {
   selectedCol = 0;
   document.getElementById('score').textContent = '0';
   document.getElementById('overlay').classList.remove('show');
+  document.getElementById('save-score-btn').disabled = false;
+  document.getElementById('save-score-btn').textContent = '💾 점수 저장';
 
   board = Array.from({ length: ROWS }, () =>
     Array.from({ length: COLS }, () => ({ value: 0, isRock: false, hidden: false }))
   );
 
-  const rockCols = shuffleArray([0,1,2,3,4]).slice(0, currentRocks);
-  rockCols.forEach(c => {
-    const r = 1 + Math.floor(Math.random() * (ROWS - 1));
-    const rv = ROCK_VALUES[Math.floor(Math.random() * ROCK_VALUES.length)];
-    board[r][c] = { value: rv, isRock: true, hidden: true };
+  const rockPool = shuffleArray([...ROCK_VALUES_POOL]);
+  shuffleArray([1, 2, 3, 4]).forEach((r, i) => {
+    const c = Math.floor(Math.random() * COLS);
+    board[r][c] = { value: rockPool[i], isRock: true, hidden: true };
   });
 
   queue = Array.from({ length: QUEUE_SIZE + 10 }, randomCard);
 
-  isMobile = window.innerWidth <= 640 || 'ontouchstart' in window;
+  isMobile = window.innerWidth <= 680 || 'ontouchstart' in window;
   document.getElementById('drop-btn').style.display = isMobile ? 'block' : 'none';
   document.getElementById('pc-hint').style.display  = isMobile ? 'none'  : 'block';
 
@@ -569,15 +485,13 @@ function shuffleArray(arr) {
 }
 
 function randomCard() {
-  const cards = DIFFICULTY_CARDS[currentDifficulty];
-  const weights = [50, 35, 15, 10];
-  const total = weights.slice(0, cards.length).reduce((a,b) => a+b, 0);
+  const total = CARD_WEIGHTS.reduce((a, b) => a + b, 0);
   let r = Math.random() * total;
-  for (let i = 0; i < cards.length; i++) {
-    r -= weights[i];
-    if (r <= 0) return cards[i];
+  for (let i = 0; i < CARDS.length; i++) {
+    r -= CARD_WEIGHTS[i];
+    if (r <= 0) return CARDS[i];
   }
-  return cards[0];
+  return CARDS[0];
 }
 
 function buildGrid() {
@@ -633,14 +547,13 @@ function renderBoard(mergeSet, revealSet) {
         el.style.color = '#555';
         el.style.border = '3px solid #444';
         el.textContent = '🪨';
-        el.style.fontSize = '1.6rem';
-      
-} else if (d.isRock && !d.hidden) {
-  el.style.background = '#4a4a4a';  // 어두운 돌 색
-  el.style.color = '#f0c040';       // 노란 숫자
-  el.style.border = '3px solid #888';
-  el.textContent = d.value;
-  el.style.fontSize = fontSize(d.value);
+        el.style.fontSize = '1.5rem';
+      } else if (d.isRock && !d.hidden) {
+        el.style.background = '#4a4a4a';
+        el.style.color = '#f0c040';
+        el.style.border = '3px solid #888';
+        el.textContent = d.value;
+        el.style.fontSize = fontSize(d.value);
       } else if (d.value > 0) {
         const col = getColor(d.value);
         el.style.background = col.bg;
@@ -653,16 +566,16 @@ function renderBoard(mergeSet, revealSet) {
         el.style.color = '#555';
         el.style.border = 'none';
         el.textContent = '';
-        el.style.fontSize = '1.2rem';
+        el.style.fontSize = '1.15rem';
       }
     }
   }
 }
 
 function fontSize(v) {
-  if (v >= 1000) return '0.9rem';
+  if (v >= 1000) return '0.85rem';
   if (v >= 100)  return '1rem';
-  return '1.2rem';
+  return '1.15rem';
 }
 
 function updateQueueUI() {
@@ -834,17 +747,54 @@ function compactDown(c, { from, to }) {
   }
 }
 
-function checkGameOver() {
+async function checkGameOver() {
   for (let c = 0; c < COLS; c++) {
     const cell = board[0][c];
     if (!cell.isRock && cell.value === 0) return;
   }
   gameOver = true;
-  document.getElementById('final-score').textContent = score;
-  document.getElementById('diff-result').textContent =
-  DIFFICULTY_LABEL[currentDifficulty] + '  ' + currentRocks + ' rocks';
+
+  const myUid = window.getOrCreateUserId();
+  document.getElementById('final-score').textContent = score.toLocaleString();
+  document.getElementById('my-id-badge').textContent = `ID: ${myUid}`;
+  document.getElementById('save-score-btn').disabled = false;
+  document.getElementById('save-score-btn').textContent = '💾 save score';
   document.getElementById('overlay').classList.add('show');
 }
+
+document.getElementById('save-score-btn').addEventListener('click', async function() {
+  const myUid = window.getOrCreateUserId();
+  this.disabled = true;
+  this.textContent = 'loading...';
+
+  await window.saveScore(score, myUid);
+
+  const myRank = await window.getMyRank(score);
+  this.textContent = myRank ? `✅ saved · 🏆 Ranking ${myRank}` : '✅ saved';
+});
+
+document.getElementById('ranking-btn').addEventListener('click', async function() {
+  const panel = document.getElementById('live-ranking');
+  if (panel.style.display === 'block') {
+    panel.style.display = 'none';
+    this.textContent = '🏆 Leaderboard';
+    return;
+  }
+  this.textContent = 'loading...';
+  const rankings = await window.getRankings();
+  panel.innerHTML = rankings.length === 0
+    ? '<div style="text-align:center;color:#555;font-size:0.85rem;padding:8px">No recores yet</div>'
+    : '<div class="ranking-title">🏆 Top 10</div>' +
+      rankings.map((r, i) => `
+        <div class="ranking-row">
+          <span class="rank-num">${i + 1}</span>
+          <span class="rank-name">${r.nickname}</span>
+          <span class="rank-score">${r.score.toLocaleString()}</span>
+        </div>
+      `).join('');
+  panel.style.display = 'block';
+  this.textContent = '🏆 Close leaderboard';
+});
 
 document.addEventListener('keydown', e => {
   if (gameOver) return;
@@ -855,26 +805,18 @@ document.addEventListener('keydown', e => {
 
 document.getElementById('drop-btn').addEventListener('click', dropCard);
 document.getElementById('restart-btn').addEventListener('click', init);
-document.getElementById('change-diff-btn').addEventListener('click', () => {
-  document.getElementById('overlay').classList.remove('show');
-  document.getElementById('start-screen').style.display = 'flex';
-});
 
 function fireConfetti() {
   const canvas = document.createElement('canvas');
   canvas.style.cssText = `
-    position: fixed;
-    top: 0; left: 0;
+    position: fixed; top: 0; left: 0;
     width: 100%; height: 100%;
-    z-index: 99999;
-    pointer-events: none;
+    z-index: 99999; pointer-events: none;
   `;
   document.body.appendChild(canvas);
-
   const myConfetti = confetti.create(canvas, { resize: true });
-  myConfetti({ particleCount: 80, angle: 60,  spread: 70, origin: { x: 0, y: 0.7 } });
-  myConfetti({ particleCount: 80, angle: 120, spread: 70, origin: { x: 1, y: 0.7 } });
-
+  myConfetti({ particleCount: 120, angle: 60,  spread: 70, origin: { x: 0, y: 0.7 } });
+  myConfetti({ particleCount: 120, angle: 120, spread: 70, origin: { x: 1, y: 0.7 } });
   setTimeout(() => canvas.remove(), 4000);
 }
 </script>
