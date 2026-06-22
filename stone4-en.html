@@ -353,14 +353,14 @@
   const db = getFirestore(app);
 
   function getOrCreateUserId() {
-    let uid = localStorage.getItem('numtle_uid');
+    let uid = localStorage.getItem('numstone_uid');
     if (!uid) {
       const C = 'BCDFGHJKLMNPQRSTVWXZ';
       const D = '0123456789';
       const rc = () => C[Math.floor(Math.random() * C.length)];
       const rd = () => D[Math.floor(Math.random() * D.length)];
       uid = rc() + rc() + rd() + rd() + rc() + rc();
-      localStorage.setItem('numtle_uid', uid);
+      localStorage.setItem('numstone_uid', uid);
     }
     return uid;
   }
@@ -383,7 +383,7 @@
     try {
       const q = query(
         collection(db, "scores"),
-        where("mode", "==", "numstone_battle_4X4"),
+        where("mode", "==", "numstone_4X4"),
         where("score", ">", score)
       );
       const snapshot = await getCountFromServer(q);
