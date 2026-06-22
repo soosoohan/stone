@@ -290,6 +290,8 @@
 
 <button class="back-button" onclick="location.href='index.html'">←</button>
 <h1>Numstone</h1>
+<div id="player-id"></div>
+
 <div class="version-badge">4×4</div>
 <div id="score-area">Score: <span id="score">0</span></div>
 
@@ -313,7 +315,7 @@
 <button id="drop-btn">▼ Drop</button>
 
 <div id="pc-hint">
- ← → Arrow keys to select column &nbsp;|&nbsp; Space / Enter to drop<br>
+ ← → Arrow keys to select column | Space / Enter to drop<br>
  Mobile: tap column button then drop button
 </div>
 
@@ -366,6 +368,7 @@
   }
 
   window.getOrCreateUserId = getOrCreateUserId;
+document.getElementById('player-id').textContent = getOrCreateUserId();
 
   window.saveScore = async function(score, nickname) {
     try {
@@ -442,6 +445,8 @@ function getColor(val) {
 let board, queue, selectedCol, score, gameOver, isMobile;
 
 function init() {
+  const uid = localStorage.getItem('numstone_uid') || 'loading...';
+  document.getElementById('player-id').textContent = uid;
   score = 0;
   gameOver = false;
   selectedCol = 0;
@@ -817,6 +822,9 @@ function fireConfetti() {
   myConfetti({ particleCount: 120, angle: 120, spread: 70, origin: { x: 1, y: 0.7 } });
   setTimeout(() => canvas.remove(), 4000);
 }
+const uid = window.getOrCreateUserId();
+document.getElementById('player-id').textContent = uid;
+
 </script>
 </body>
 </html>
