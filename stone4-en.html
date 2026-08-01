@@ -95,6 +95,17 @@
     letter-spacing: 2px;
     color: #f0c040;
   }
+#status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 288px;
+  margin-bottom: 12px;
+  font-size: 0.85rem;
+  padding-left: 60px;
+}
+#player-id { color: #666; letter-spacing: 1px; }
 
   #score-area {
     margin-bottom: 14px;
@@ -296,9 +307,10 @@
 
 <button class="back-button" onclick="location.href='index.html'">←</button>
 <h1>NumStone</h1>
-<div id="player-id"></div>
-
-<div id="score-area">Score: <span id="score">0</span></div>
+<div id="status-bar">
+  <span id="player-id"></span>
+  <span id="score-area">Score: <span id="score">0</span></span>
+</div>
 
 <div id="queue-area">
   <div class="queue-slot">
