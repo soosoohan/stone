@@ -549,9 +549,14 @@ dropCard();
 
 function highlightCol() {
   document.querySelectorAll('.col-btn').forEach((btn, i) => {
-    btn.classList.toggle('selected', i === selectedCol);
+    if (isMobile) {
+      btn.classList.remove('selected');   // 터치 모드: 색 표시 안 함
+    } else {
+      btn.classList.toggle('selected', i === selectedCol);  // 키보드 모드: 선택된 열만 표시
+    }
   });
 }
+
 
 function renderBoard(mergeSet, revealSet) {
   for (let r = 0; r < ROWS; r++) {
@@ -823,7 +828,9 @@ document.addEventListener('keydown', e => {
   if (['ArrowLeft','ArrowRight','Enter',' '].includes(e.key) && isMobile) {
     isMobile = false;
     document.getElementById('pc-hint').style.display = 'block';
+    highlightCol();  
   }
+  
   if (gameOver) return;
   if (e.key === 'ArrowLeft') { e.preventDefault(); selectedCol = Math.max(0, selectedCol-1); highlightCol(); }
   if (e.key === 'ArrowRight') { e.preventDefault(); selectedCol = Math.min(COLS-1, selectedCol+1); highlightCol(); }
