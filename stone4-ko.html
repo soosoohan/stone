@@ -124,7 +124,7 @@
   }
 
   .queue-label {
-    font-size: 0.75rem;
+    font-size: 1rem;
     color: #888;
     margin-bottom: 4px;
     text-align: center;
@@ -143,7 +143,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-weight: bold;
     background: #444;
     color: #888;
@@ -166,7 +166,7 @@
     border-radius: 8px;
     border: none;
     background: #2a2a4a;
-    color: #444;
+    color: #db74bc;
     font-size: 1.4rem;
     cursor: pointer;
     transition: all 0.15s ease;
@@ -179,7 +179,7 @@
     transform: translateY(4px);
     box-shadow: 0 4px 12px rgba(240,192,64,0.5);
   }
-  .col-btn:hover:not(.selected) { background: #3a3a6a; color: #888; }
+  .col-btn:hover:not(.selected) { background: #3a3a6a; color: #db74bc; }
 
   #grid {
     display: grid;
@@ -554,9 +554,14 @@ function buildColButtons() {
   }
 }
 
+//550
 function highlightCol() {
   document.querySelectorAll('.col-btn').forEach((btn, i) => {
-    btn.classList.toggle('selected', i === selectedCol);
+if (isMobile) {
+      btn.classList.remove('selected');   // 터치 모드: 색 표시 안 함
+    } else {
+      btn.classList.toggle('selected', i === selectedCol);  // 키보드 모드: 선택된 열만 표시
+    }
   });
 }
 
@@ -824,7 +829,8 @@ document.getElementById('ranking-btn').addEventListener('click', async function(
       `).join('');
   panel.style.display = 'block';
   this.textContent = '🏆 순위 닫기';
-});
+   highlightCol();  ///이걸 추가
+ });
 
 document.addEventListener('keydown', e => {
   if (gameOver) return;
