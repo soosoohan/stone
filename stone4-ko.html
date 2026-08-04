@@ -337,9 +337,8 @@
   </div>
 </div>
 
-<div id="col-buttons"></div>
 <div id="grid"></div>
-<button id="drop-btn">▼ 낙하</button>
+<div id="col-buttons"></div>
 
 <div id="pc-hint">
   ← → 방향키로 열 선택 &nbsp;|&nbsp; 스페이스바나 엔터키로 낙하<br>
@@ -554,13 +553,12 @@ function buildColButtons() {
   }
 }
 
-//550
 function highlightCol() {
   document.querySelectorAll('.col-btn').forEach((btn, i) => {
-if (isMobile) {
-      btn.classList.remove('selected');   // 터치 모드: 색 표시 안 함
+    if (isMobile) {
+      btn.classList.remove('selected');   
     } else {
-      btn.classList.toggle('selected', i === selectedCol);  // 키보드 모드: 선택된 열만 표시
+      btn.classList.toggle('selected', i === selectedCol);  
     }
   });
 }
@@ -829,17 +827,15 @@ document.getElementById('ranking-btn').addEventListener('click', async function(
       `).join('');
   panel.style.display = 'block';
   this.textContent = '🏆 순위 닫기';
-   highlightCol();  ///이걸 추가
  });
 
 document.addEventListener('keydown', e => {
-  if (gameOver) return;
-  if (e.key === 'ArrowLeft')  { e.preventDefault(); selectedCol = Math.max(0, selectedCol - 1); highlightCol(); }
-  if (e.key === 'ArrowRight') { e.preventDefault(); selectedCol = Math.min(COLS - 1, selectedCol + 1); highlightCol(); }
-  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); dropCard(); }
-});
-
-document.getElementById('drop-btn').addEventListener('click', dropCard);
+  if (['ArrowLeft','ArrowRight','Enter',' '].includes(e.key) && isMobile) {
+    isMobile = false;
+    document.getElementById('pc-hint').style.display = 'block';
+    highlightCol();  
+  }
+  
 document.getElementById('restart-btn').addEventListener('click', init);
 
 function fireConfetti() {
