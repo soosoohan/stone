@@ -536,7 +536,7 @@ function buildColButtons() {
     btn.addEventListener('click', () => {
       selectedCol = c;
       highlightCol();
-      if (isMobile) return;
+      if (!isMobile) return;
       dropCard();
     });
     container.appendChild(btn);
