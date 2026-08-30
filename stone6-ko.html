@@ -116,42 +116,43 @@
   }
 
   #queue-area {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 16px;
-    align-items: flex-end;
-  }
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  align-items: flex-end;
+}
 
-  .queue-label {
-    font-size: 1rem;
-    color: #888;
-    margin-bottom: 4px;
-    text-align: center;
-  }
+.queue-label {
+  font-size: 1rem;
+  color: #888;
+  margin-bottom: 4px;
+  text-align: center;
+}
 
-  .queue-slot {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+.queue-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-  .queue-card {
-    width: 52px;
-    height: 52px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    font-weight: bold;
-    background: #444;
-    color: #888;
-    transition: all 0.3s;
-  }
-  .queue-card.active {
-    transform: scale(1.1);
-    box-shadow: 0 0 12px rgba(240,192,64,0.6);
-  }
+.queue-card {
+  width: 52px;
+  height: 52px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  background: #3a3a3a;
+  color: #ddd;
+  transition: transform 0.2s;
+}
+.queue-card.active {
+  background: #555;
+  color: #eee;
+  transform: scale(1.1);
+}
 
   #col-buttons {
     display: flex;
@@ -604,8 +605,6 @@ function updateQueueUI() {
     if (!el) continue;
     const val = queue[i];
     el.textContent = val ?? '';
-    el.style.background = i === 0 ? '#555' : '#333';
-    el.style.color      = i === 0 ? '#eee' : '#777';
     el.className = 'queue-card' + (i === 0 ? ' active' : '');
   }
 }
