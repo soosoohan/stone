@@ -59,7 +59,8 @@
 </script>
 <script src="https://soosooland.com/js/protection.js"></script>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+   :root {--content-width: 800px;}
+   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
     font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
@@ -115,11 +116,11 @@
 }
 
 .banner-title img {
-    display: block;
-    width: 100%;
-    max-width: 900px;
-    height: auto;
-    margin: 0 auto;
+  display: block;
+  width: 90%;
+  max-width: var(--content-width);
+  height: auto;
+  margin: 0 auto;
 }
 
   /* ── 공통 카드 섹션 ── */
