@@ -183,27 +183,6 @@
 
   .info-card h3:first-of-type { margin-top: 4px; }
 
-  /* 조작법 테이블 */
-  .control-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 8px;
-    font-size: 0.93rem;
-  }
-  .control-table td {
-    padding: 10px 12px;
-    border-bottom: 1px solid #e8c8b0;
-    color: #7A2E2E;
-    vertical-align: top;
-  }
-  .control-table tr:last-child td { border-bottom: none; }
-  .control-table td:first-child {
-  font-weight: bold;
-  white-space: nowrap;
-  width: 170px;  
-  color: #a04040;
-}
-
 
   /* 게임 선택 버튼 */
   .selection-container {
@@ -347,6 +326,14 @@ header { display: flow-root; height: auto !important; }
   <h3 class="lang-en">Game Over</h3>
   <p class="lang-ko">맨 윗줄이 가득 차면 게임이 종료됩니다. 중간에 빈 자리가 있어도 맨 윗줄 기준으로 판단합니다.</p>
   <p class="lang-en">The game ends when the top row is full — even if space remains below. Watch the top.</p>
+
+  <h3 class="lang-ko">조작법</h3>
+  <h3 class="lang-en">Controls</h3>
+  <p class="lang-ko">← →: 열 선택, Enter / Space: 카드 낙하 (PC)</p>
+  <p class="lang-en">← →:Select column, Enter / Space: Drop card (PC)</p>
+  <p class="lang-ko">▼ 열 버튼 탭: 카드 낙하 (모바일)</p>
+  <p class="lang-en">▼ Tap column button: Drop card (mobile)</p>
+
 </div><!-- 게임 규칙 -->
 
 <!-- 게임 선택 한글-->
@@ -390,32 +377,6 @@ header { display: flow-root; height: auto !important; }
    
     </button>
  </div></div><!-- 게임 선택 영어 -->
-
-<!-- 조작법 -->
-<div class="info-card">
-  <h2 class="lang-ko">조작법</h2>
-  <h2 class="lang-en">Controls</h2>
-  <table class="control-table">
-    <tr>
-      <td>← →</td>
-      <td class="lang-ko">열 선택 (PC)</td>
-      <td class="lang-en">Select column (PC)</td>
-    </tr>
-    <tr>
-      <td>Enter,Space</td>
-      <td class="lang-ko">카드 낙하 (PC)</td>
-      <td class="lang-en">Drop card (PC)</td>
-    </tr>
-<tr>
-  <td>
-    <span class="lang-ko">▼ 열 버튼 탭</span>
-    <span class="lang-en">▼ Tap column button</span>
-  </td>
-  <td class="lang-ko">카드 낙하 (모바일)</td>
-  <td class="lang-en">Drop card (mobile)</td>
-</tr>
-  </table>
-</div><!-- 조작법 -->
 
 <footer>
   <p>© 2026 Han Soosoo. All rights reserved.</p>
